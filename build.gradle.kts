@@ -197,7 +197,7 @@ project(":mall") {
         kapt("jakarta.annotation:jakarta.annotation-api")
     }
 
-    val moduleMainClass = "com.hyoii.kotlin.MallApplication"
+    val moduleMainClass = "com.hyoii.mall.MallApplication"
     tasks.getByName<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
         enabled = true
         mainClass.set(moduleMainClass)

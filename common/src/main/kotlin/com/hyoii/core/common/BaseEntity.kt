@@ -19,5 +19,4 @@ abstract class BaseEntity {
     @LastModifiedDate
     @Column(name = "modified_dt", nullable = false)
     protected var modifiedDt: LocalDateTime = LocalDateTime.MIN
-
 }

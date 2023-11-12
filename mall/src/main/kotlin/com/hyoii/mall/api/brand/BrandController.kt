@@ -17,5 +17,3 @@ class BrandController(
         { ResponseData.success(it) }
     )
 }
-
-
