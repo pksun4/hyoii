@@ -11,6 +11,7 @@ plugins {
 
     kotlin("jvm") version "1.8.22"
     kotlin("plugin.spring") version "1.9.0"
+    kotlin("plugin.jpa") version "1.9.0"
     kotlin("plugin.allopen") version "1.9.0"
     kotlin("plugin.noarg") version "1.9.0"
     kotlin("plugin.serialization") version "1.9.0"
@@ -99,6 +100,18 @@ subprojects {
 
         // Javax Annotation (일부 외부 라이브러리에서 javax 사용중이라 gradle import)
         implementation("javax.annotation:javax.annotation-api:1.3.2")
+
+        implementation("jakarta.servlet:jakarta.servlet-api:6.0.0")
+        implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
+
+        // Hibernate Validator
+        implementation("org.hibernate.validator:hibernate-validator:8.0.1.Final")
+        implementation("org.glassfish:jakarta.el:5.0.0-M1")//        implementation("jakarta.servlet:jakarta.servlet-api:6.0.0")
+        implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
+
+        // Hibernate Validator
+        implementation("org.hibernate.validator:hibernate-validator:8.0.1.Final")
+        implementation("org.glassfish:jakarta.el:5.0.0-M1")
     }
 
     kotlin.sourceSets.main {
@@ -130,6 +143,17 @@ project("common") {
     apply {
         plugin("kotlin-allopen")
         plugin("kotlin-noarg")
+        plugin("kotlin-kapt")
+    }
+
+    noArg {
+        annotation("jakarta.persistence.Entity")
+    }
+
+    allOpen {
+        annotation("jakarta.persistence.Entity")
+        annotation("jakarta.persistence.MappedSuperclass")
+        annotation("jakarta.persistence.Embeddable")
     }
 
     dependencies {
@@ -140,6 +164,19 @@ project("common") {
             exclude(module = "commons-logging")
         }
         compileOnly("org.springframework.boot:spring-boot-starter-webflux:$springBootVersion")
+        compileOnly("org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion")
+        compileOnly("org.springframework.boot:spring-boot-starter-jdbc:$springBootVersion")
+        implementation("org.springframework.data:spring-data-commons:$springDataCommons")
+        implementation("com.querydsl:querydsl-jpa:$queryDsl:jakarta")
+        implementation("com.querydsl:querydsl-apt:$queryDsl:jakarta")
+
+        kapt("jakarta.persistence:jakarta.persistence-api")
+        kapt("jakarta.annotation:jakarta.annotation-api")
+
+        // Hikaai
+        implementation("com.zaxxer:HikariCP:5.0.1")
+        // MySql
+        runtimeOnly("com.mysql:mysql-connector-j")
     }
 
     tasks.getByName<Jar>("jar") {
