@@ -1,4 +1,4 @@
-package com.hyoii.kotlin.api
+package com.hyoii.mall.api
 
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
@@ -8,5 +8,4 @@ class IndexController {
 
     @GetMapping("/")
     fun index() = "index"
-
 }
