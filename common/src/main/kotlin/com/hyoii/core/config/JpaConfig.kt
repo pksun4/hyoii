@@ -11,4 +11,4 @@ import org.springframework.transaction.annotation.EnableTransactionManagement
 @EnableJpaRepositories(
     basePackages = ["com.hyoii.core.domain"]
 )
-class JpaConfiguration
+class JpaConfig
