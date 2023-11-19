@@ -6,7 +6,7 @@ plugins {
     java
     id("org.springframework.boot") apply false
     id("io.spring.dependency-management") apply false
-    id("org.jlleitschuh.gradle.ktlint") version "11.3.1" apply false
+//    id("org.jlleitschuh.gradle.ktlint") version "11.3.1" apply false
 
     kotlin("jvm") version "1.9.0"
     kotlin("plugin.spring") version "1.9.0"
@@ -49,7 +49,7 @@ subprojects {
         plugin("kotlin-spring")
         plugin("org.springframework.boot")
         plugin("io.spring.dependency-management")
-        plugin("org.jlleitschuh.gradle.ktlint")
+//        plugin("org.jlleitschuh.gradle.ktlint")
     }
 
     dependencies {
@@ -109,6 +109,11 @@ subprojects {
         implementation("org.hibernate.validator:hibernate-validator:8.0.1.Final")
         implementation("org.glassfish:jakarta.el:5.0.0-M1")
 
+        // Data + JPA
+        implementation("org.springframework.data:spring-data-commons:$springDataCommons")
+        implementation("com.querydsl:querydsl-jpa:$queryDsl:jakarta")
+        implementation("com.querydsl:querydsl-apt:$queryDsl:jakarta")
+
         // Security
 //        implementation("org.springframework.boot:spring-boot-starter-security")
         implementation("io.jsonwebtoken:jjwt-api:0.11.5")
@@ -162,20 +167,13 @@ project("common") {
         implementation("au.com.console:kassava:2.1.0")
         testImplementation("org.mockito:mockito-inline:5.2.0")
 
-        implementation("org.springframework.boot:spring-boot-starter-webflux:$springBootVersion")
-
         compileOnly("org.springframework.boot:spring-boot-starter-web:$springBootVersion") {
             exclude(module = "commons-logging")
         }
-        implementation("org.springframework.boot:spring-boot-starter-webflux:$springBootVersion")
 
         // kotlin jpa specification (JPA & QueryDSL )
         compileOnly("org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion")
         compileOnly("org.springframework.boot:spring-boot-starter-jdbc:$springBootVersion")
-        implementation("org.springframework.data:spring-data-commons:$springDataCommons")
-        implementation("com.querydsl:querydsl-jpa:$queryDsl:jakarta")
-        implementation("com.querydsl:querydsl-apt:$queryDsl:jakarta")
-
         kapt("jakarta.persistence:jakarta.persistence-api")
         kapt("jakarta.annotation:jakarta.annotation-api")
 
@@ -187,7 +185,10 @@ project("common") {
 
     tasks.getByName<Jar>("jar") {
         enabled = true
-        baseName = "core"
+    }
+
+    tasks.getByName<BootJar>("bootJar") {
+        enabled = false
     }
 }
 
@@ -198,13 +199,9 @@ project(":mall") {
 
     dependencies {
         implementation(project(":common"))
-        implementation("org.springframework.boot:spring-boot-starter-webflux:$springBootVersion")
         // kotlin jpa specification (JPA & QueryDSL )
         implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion")
         implementation("org.springframework.boot:spring-boot-starter-jdbc:$springBootVersion")
-        implementation("org.springframework.data:spring-data-commons:$springDataCommons")
-        implementation("com.querydsl:querydsl-jpa:$queryDsl:jakarta")
-        implementation("com.querydsl:querydsl-apt:$queryDsl:jakarta")
         kapt("jakarta.persistence:jakarta.persistence-api")
         kapt("jakarta.annotation:jakarta.annotation-api")
     }

@@ -10,7 +10,7 @@ import kotlin.reflect.KClass
 @Retention(AnnotationRetention.RUNTIME)
 @MustBeDocumented
 @Constraint(validatedBy = [ValidEnumValidator::class])
-annotation class ValidEnum (
+annotation class ValidEnum(
 
     val message: String = "invalid enum value",
     val groups: Array<KClass<*>> = [],
@@ -19,7 +19,7 @@ annotation class ValidEnum (
 
 )
 
-class ValidEnumValidator: ConstraintValidator<ValidEnum, Any> {
+class ValidEnumValidator : ConstraintValidator<ValidEnum, Any> {
     private lateinit var enumValues: Array<out Enum<*>>
 
     override fun initialize(annotion: ValidEnum) {
