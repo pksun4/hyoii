@@ -1,8 +1,8 @@
-package com.hyoii.core.domain.member
+package com.hyoii.domain.member
 
-import com.hyoii.core.common.BaseEntity
-import com.hyoii.core.enums.GenderEnums
-import com.hyoii.core.enums.RoleEnums
+import com.hyoii.common.BaseEntity
+import com.hyoii.enums.GenderEnums
+import com.hyoii.enums.RoleEnums
 import jakarta.persistence.*
 
 @Entity
@@ -26,8 +26,8 @@ data class Member(
 
     ) : BaseEntity() {
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
-    var memberRole: List<MemberRole>? = null
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "member", targetEntity = MemberRole::class)
+    var memberRole: List<MemberRole>? = mutableListOf()
 
     /**
      * Entity to Dto

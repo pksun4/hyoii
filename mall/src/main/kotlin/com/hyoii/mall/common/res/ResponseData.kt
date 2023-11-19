@@ -1,6 +1,6 @@
 package com.hyoii.mall.common.res
 
-import com.hyoii.core.enums.MessageEnums
+import com.hyoii.enums.MessageEnums
 import org.springframework.http.ResponseEntity
 
 object ResponseData {

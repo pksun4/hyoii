@@ -1,4 +1,4 @@
-package com.hyoii.core.config
+package com.hyoii.config
 
 import com.querydsl.jpa.impl.JPAQueryFactory
 import jakarta.persistence.EntityManager

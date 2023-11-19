@@ -1,4 +1,4 @@
-package com.hyoii.core
+package com.hyoii
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

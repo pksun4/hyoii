@@ -1,4 +1,4 @@
-package com.hyoii.core.enums
+package com.hyoii.enums
 
 enum class GenderEnums(val gender: String) {
     M("남"),

@@ -1,4 +1,4 @@
-package com.hyoii.core.utils
+package com.hyoii.utils
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

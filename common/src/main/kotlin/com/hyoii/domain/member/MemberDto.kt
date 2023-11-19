@@ -1,8 +1,8 @@
-package com.hyoii.core.domain.member
+package com.hyoii.domain.member
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.hyoii.core.annotation.ValidEnum
-import com.hyoii.core.enums.GenderEnums
+import com.hyoii.annotation.ValidEnum
+import com.hyoii.enums.GenderEnums
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
 import java.time.LocalDate

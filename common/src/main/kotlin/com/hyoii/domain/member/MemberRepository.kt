@@ -1,4 +1,4 @@
-package com.hyoii.core.domain.member
+package com.hyoii.domain.member
 
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.data.jpa.repository.JpaRepository

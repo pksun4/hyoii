@@ -1,6 +1,6 @@
-package com.hyoii.core.domain.brand
+package com.hyoii.domain.brand
 
-import com.hyoii.core.common.BaseEntity
+import com.hyoii.common.BaseEntity
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType

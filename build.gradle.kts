@@ -1,5 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-//import org.springframework.boot.gradle.tasks.bundling.BootJar
+import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 plugins {
     base
@@ -8,7 +8,7 @@ plugins {
     id("io.spring.dependency-management") apply false
     id("org.jlleitschuh.gradle.ktlint") version "11.3.1" apply false
 
-    kotlin("jvm") version "1.8.22"
+    kotlin("jvm") version "1.9.0"
     kotlin("plugin.spring") version "1.9.0"
     kotlin("plugin.jpa") version "1.9.0"
     kotlin("plugin.allopen") version "1.9.0"
@@ -29,7 +29,7 @@ val jupiterVersion: String by project
 val kotlinCoroutinesVersion: String by project
 
 allprojects {
-    group = "company.app"
+    group = "com.hyoii"
     version = "1.0.0"
 
     apply {
@@ -100,21 +100,20 @@ subprojects {
         // Javax Annotation (일부 외부 라이브러리에서 javax 사용중이라 gradle import)
         implementation("javax.annotation:javax.annotation-api:1.3.2")
 
+        // Javax -> Jakarta
         implementation("jakarta.servlet:jakarta.servlet-api:6.0.0")
         implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
 
-        // Hibernate Validator
-        implementation("org.hibernate.validator:hibernate-validator:8.0.1.Final")
-        implementation("org.glassfish:jakarta.el:5.0.0-M1")//        implementation("jakarta.servlet:jakarta.servlet-api:6.0.0")
-        implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
 
         // Hibernate Validator
         implementation("org.hibernate.validator:hibernate-validator:8.0.1.Final")
         implementation("org.glassfish:jakarta.el:5.0.0-M1")
 
-        implementation("org.springframework.data:spring-data-commons:$springDataCommons")
-        implementation("com.querydsl:querydsl-jpa:$queryDsl:jakarta")
-        implementation("com.querydsl:querydsl-apt:$queryDsl:jakarta")
+        // Security
+//        implementation("org.springframework.boot:spring-boot-starter-security")
+        implementation("io.jsonwebtoken:jjwt-api:0.11.5")
+        runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
+        runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
     }
 
     kotlin.sourceSets.main {
@@ -163,17 +162,24 @@ project("common") {
         implementation("au.com.console:kassava:2.1.0")
         testImplementation("org.mockito:mockito-inline:5.2.0")
 
+        implementation("org.springframework.boot:spring-boot-starter-webflux:$springBootVersion")
+
         compileOnly("org.springframework.boot:spring-boot-starter-web:$springBootVersion") {
             exclude(module = "commons-logging")
         }
-        compileOnly("org.springframework.boot:spring-boot-starter-webflux:$springBootVersion")
+        implementation("org.springframework.boot:spring-boot-starter-webflux:$springBootVersion")
+
+        // kotlin jpa specification (JPA & QueryDSL )
         compileOnly("org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion")
         compileOnly("org.springframework.boot:spring-boot-starter-jdbc:$springBootVersion")
+        implementation("org.springframework.data:spring-data-commons:$springDataCommons")
+        implementation("com.querydsl:querydsl-jpa:$queryDsl:jakarta")
+        implementation("com.querydsl:querydsl-apt:$queryDsl:jakarta")
 
         kapt("jakarta.persistence:jakarta.persistence-api")
         kapt("jakarta.annotation:jakarta.annotation-api")
 
-        // Hikaai
+        // Hikari
         implementation("com.zaxxer:HikariCP:5.0.1")
         // MySql
         runtimeOnly("com.mysql:mysql-connector-j")
@@ -181,6 +187,7 @@ project("common") {
 
     tasks.getByName<Jar>("jar") {
         enabled = true
+        baseName = "core"
     }
 }
 
@@ -191,14 +198,19 @@ project(":mall") {
 
     dependencies {
         implementation(project(":common"))
+        implementation("org.springframework.boot:spring-boot-starter-webflux:$springBootVersion")
+        // kotlin jpa specification (JPA & QueryDSL )
         implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion")
         implementation("org.springframework.boot:spring-boot-starter-jdbc:$springBootVersion")
+        implementation("org.springframework.data:spring-data-commons:$springDataCommons")
+        implementation("com.querydsl:querydsl-jpa:$queryDsl:jakarta")
+        implementation("com.querydsl:querydsl-apt:$queryDsl:jakarta")
         kapt("jakarta.persistence:jakarta.persistence-api")
         kapt("jakarta.annotation:jakarta.annotation-api")
     }
 
-    val moduleMainClass = "com.hyoii.mall.MallApplication"
-    tasks.getByName<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
+    val moduleMainClass = "com.hyoii.mall.MallApplicationKt"
+    tasks.getByName<BootJar>("bootJar") {
         enabled = true
         mainClass.set(moduleMainClass)
     }

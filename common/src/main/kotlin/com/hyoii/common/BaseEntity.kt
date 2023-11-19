@@ -1,4 +1,4 @@
-package com.hyoii.core.common
+package com.hyoii.common
 
 import jakarta.persistence.Column
 import jakarta.persistence.EntityListeners

@@ -1,4 +1,4 @@
-package com.hyoii.core.enums
+package com.hyoii.enums
 
 enum class MessageEnums(val code: String, val message: String) {
     // Default
