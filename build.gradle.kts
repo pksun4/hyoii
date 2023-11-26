@@ -57,7 +57,7 @@ subprojects {
         implementation("org.springframework.boot:spring-boot-starter:$springBootVersion") {
             implementation("org.yaml:snakeyaml:2.0")
         }
-        implementation("org.springframework.boot:spring-boot-starter-webflux:$springBootVersion")
+        implementation("org.springframework.boot:spring-boot-starter-web")
 
         // jackson
         implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
@@ -115,7 +115,7 @@ subprojects {
         implementation("com.querydsl:querydsl-apt:$queryDsl:jakarta")
 
         // Security
-//        implementation("org.springframework.boot:spring-boot-starter-security")
+        implementation("org.springframework.boot:spring-boot-starter-security:$springBootVersion")
         implementation("io.jsonwebtoken:jjwt-api:0.11.5")
         runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
         runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")

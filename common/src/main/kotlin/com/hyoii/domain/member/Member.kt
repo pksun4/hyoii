@@ -64,4 +64,4 @@ class MemberRole(
     @JoinColumn(foreignKey = ForeignKey(name = "fk_member_role_1"))
     var member: Member
 
-)
+) : BaseEntity()

@@ -5,11 +5,11 @@ import org.springframework.http.ResponseEntity
 
 object ResponseData {
     fun fail(messageEnums: MessageEnums) = ResponseEntity.badRequest().body(ResponseFail(messageEnums.code, messageEnums.message))
-    fun <T> success(response: T): ResponseEntity<ResponseSuccess<T>> = ResponseEntity.ok(ResponseSuccess(response, MessageEnums.SUCCESS.code, MessageEnums.SUCCESS.message))
+    fun <T> success(response: T): ResponseEntity<ResponseSuccess<T>> = ResponseEntity.ok(ResponseSuccess(MessageEnums.SUCCESS.code, MessageEnums.SUCCESS.message, response))
 }
 
-class ResponseSuccess<T>(val data: T, val code: String, val message: String)
+class ResponseSuccess<T>(val code: String, val message: String, val data: T)
 
-class ResponseFail(val errorCode: String, val errorMessage: String)
+class ResponseFail(val code: String, val message: String)
 
-class ResponseException<T> (val errorCode: String = MessageEnums.ERROR.code, val errorMessage: String = MessageEnums.ERROR.message, val error: T? = null)
+class ResponseException<T> (val code: String = MessageEnums.ERROR.code, val message: String = MessageEnums.ERROR.message, val error: T? = null)

@@ -1,7 +1,7 @@
 package com.hyoii.mall.exception
 
-// import org.springframework.security.authentication.BadCredentialsException
-import com.hyoii.core.enums.MessageEnums
+ import org.springframework.security.authentication.BadCredentialsException
+import com.hyoii.enums.MessageEnums
 import com.hyoii.mall.common.res.ResponseException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -36,14 +36,14 @@ class CustomExceptionHandler {
         return ResponseEntity(ResponseException(MessageEnums.INVALID_PARAMETER.code, MessageEnums.INVALID_PARAMETER.message, errors), HttpStatus.BAD_REQUEST)
     }
 
-//    /**
-//     * 시큐리티 추가 (아이디 비밀번호 검증 실패)
-//     */
-//    @ExceptionHandler(BadCredentialsException::class)
-//    protected fun badCredentialsException(ex: InvalidInputException) : ResponseEntity<ResponseException<Map<String, String>>> {
-//        val errors = mapOf(ex.fieldName to (ex.message ?: "Not Exception Message"))
-//        return ResponseEntity(ResponseException(MessageEnums.LOGIN_INCORRECT.code, MessageEnums.LOGIN_INCORRECT.message, errors), HttpStatus.BAD_REQUEST)
-//    }
+    /**
+     * 시큐리티 추가 (아이디 비밀번호 검증 실패)
+     */
+    @ExceptionHandler(BadCredentialsException::class)
+    protected fun badCredentialsException(ex: InvalidInputException) : ResponseEntity<ResponseException<Map<String, String>>> {
+        val errors = mapOf(ex.fieldName to (ex.message ?: "Not Exception Message"))
+        return ResponseEntity(ResponseException(MessageEnums.LOGIN_INCORRECT.code, MessageEnums.LOGIN_INCORRECT.message, errors), HttpStatus.BAD_REQUEST)
+    }
 
     /**
      * 나머지 exception

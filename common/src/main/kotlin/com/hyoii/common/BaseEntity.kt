@@ -13,10 +13,10 @@ import java.time.LocalDateTime
 abstract class BaseEntity {
 
     @CreatedDate
-    @Column(name = "created_dt", nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    protected var createdDt: LocalDateTime = LocalDateTime.MIN
+    @Column(name = "created_dt", nullable = false, updatable = false)
+    protected var createdDt: LocalDateTime = LocalDateTime.now()
 
     @LastModifiedDate
-    @Column(name = "modified_dt", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    protected var modifiedDt: LocalDateTime = LocalDateTime.MIN
+    @Column(name = "modified_dt", nullable = false)
+    protected var modifiedDt: LocalDateTime = LocalDateTime.now()
 }
