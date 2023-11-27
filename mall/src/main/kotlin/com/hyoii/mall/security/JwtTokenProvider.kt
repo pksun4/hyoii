@@ -16,7 +16,8 @@ import java.util.*
 class JwtTokenProvider {
 
     companion object {
-        const val EXPIRATION_MILLISECONDS: Long = 1000 * 60 * 30 // 30분
+        const val TOKEN_EXPIRATION_MS: Long = 1000 * 60 * 10   // 10분
+        const val REFRESH_EXPIRATION_MS: Long = 1000 * 60 * 60 // 1시간
     }
 
     @Value("\${jwt.secret}")
@@ -27,15 +28,25 @@ class JwtTokenProvider {
     /**
      * 토큰생성
      */
-    fun createToken(authentication: Authentication): TokenInfo {
+    fun createToken(authentication: Authentication) = buildToken(authentication, TOKEN_EXPIRATION_MS)
+
+    /**
+     * 리프레시 토큰 생성
+     */
+    fun createRefreshToken(authentication: Authentication) = buildToken(authentication, REFRESH_EXPIRATION_MS)
+
+    private fun buildToken(
+        authentication:  Authentication,
+        expiration: Long
+    ): String {
         // 권한 String 으로 뽑기
         val authorities: String = authentication
             .authorities
             .joinToString(",", transform = GrantedAuthority::getAuthority)
+        // 토큰 만료 설정
         val now = Date()
-        val accessExpiration = Date(now.time + EXPIRATION_MILLISECONDS)
-
-        val accessToken = Jwts
+        val accessExpiration = Date(now.time + expiration)
+        return Jwts
             .builder()
             .setSubject(authentication.name)
             .claim("auth", authorities)
@@ -44,8 +55,6 @@ class JwtTokenProvider {
             .setExpiration(accessExpiration)
             .signWith(key, SignatureAlgorithm.HS256)
             .compact()
-
-        return TokenInfo("Bearer", accessToken)
     }
 
     /**

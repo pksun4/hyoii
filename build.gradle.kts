@@ -57,7 +57,7 @@ subprojects {
         implementation("org.springframework.boot:spring-boot-starter:$springBootVersion") {
             implementation("org.yaml:snakeyaml:2.0")
         }
-        implementation("org.springframework.boot:spring-boot-starter-web")
+        implementation("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
 
         // jackson
         implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
@@ -108,6 +108,9 @@ subprojects {
         // Hibernate Validator
         implementation("org.hibernate.validator:hibernate-validator:8.0.1.Final")
         implementation("org.glassfish:jakarta.el:5.0.0-M1")
+
+        // Redis
+        implementation("org.springframework.boot:spring-boot-starter-data-redis:$springBootVersion")
 
         // Data + JPA
         implementation("org.springframework.data:spring-data-commons:$springDataCommons")

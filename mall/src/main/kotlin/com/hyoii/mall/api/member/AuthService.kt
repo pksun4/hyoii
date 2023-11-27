@@ -21,13 +21,23 @@ class AuthService(
                 memberLoginDto.password
             )
             val authentication = authenticationManagerBuilder.`object`.authenticate(authenticationToken)
-            jwtTokenProvider.createToken(authentication).right()
+            ResponseToken(
+                grantType = "Bearer",
+                accessToken = jwtTokenProvider.createToken(authentication),
+                refreshToken = jwtTokenProvider.createRefreshToken(authentication)
+            ).right()
         }.getOrElse {
             println(it.message)
             AuthError.LoginFail.left()
         }
 
 }
+
+class ResponseToken(
+    val grantType: String,
+    val accessToken: String,
+    val refreshToken: String
+)
 
 sealed class AuthError(
     val messageEnums: MessageEnums
