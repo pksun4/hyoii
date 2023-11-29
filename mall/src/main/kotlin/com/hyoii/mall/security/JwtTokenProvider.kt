@@ -16,8 +16,8 @@ import java.util.*
 class JwtTokenProvider {
 
     companion object {
-        const val TOKEN_EXPIRATION_MS: Long = 1000 * 60 * 10   // 10분
-        const val REFRESH_EXPIRATION_MS: Long = 1000 * 60 * 60 // 1시간
+        const val TOKEN_EXPIRATION_MS: Long = 1000 * 60 * 30        // 30분
+        const val REFRESH_EXPIRATION_MS: Long = 1000 * 60 * 60 * 24 // 하루
     }
 
     @Value("\${jwt.secret}")
@@ -28,31 +28,31 @@ class JwtTokenProvider {
     /**
      * 토큰생성
      */
-    fun createToken(authentication: Authentication) = buildToken(authentication, TOKEN_EXPIRATION_MS)
-
-    /**
-     * 리프레시 토큰 생성
-     */
-    fun createRefreshToken(authentication: Authentication) = buildToken(authentication, REFRESH_EXPIRATION_MS)
-
-    private fun buildToken(
-        authentication:  Authentication,
-        expiration: Long
-    ): String {
-        // 권한 String 으로 뽑기
+    fun createToken(authentication: Authentication): String {
         val authorities: String = authentication
             .authorities
             .joinToString(",", transform = GrantedAuthority::getAuthority)
         // 토큰 만료 설정
         val now = Date()
-        val accessExpiration = Date(now.time + expiration)
+        val accessExpiration = Date(now.time + TOKEN_EXPIRATION_MS)
         return Jwts
             .builder()
             .setSubject(authentication.name)
             .claim("auth", authorities)
-            .claim("userIdx", (authentication.principal as CustomUser).userIdx)
+            .claim("memberId", (authentication.principal as CustomUser).memberId)
             .setIssuedAt(now) // 발행시간
             .setExpiration(accessExpiration)
+            .signWith(key, SignatureAlgorithm.HS256)
+            .compact()
+    }
+
+    /**
+     * 리프레시 토큰 생성
+     */
+    fun createRefreshToken(authentication: Authentication): String {
+        return Jwts
+            .builder()
+            .setExpiration(Date(Date().time + REFRESH_EXPIRATION_MS))
             .signWith(key, SignatureAlgorithm.HS256)
             .compact()
     }
@@ -64,14 +64,14 @@ class JwtTokenProvider {
         val claims: Claims = getClaims(token)
 
         val auth = claims["auth"] ?: throw RuntimeException("잘못된 토큰입니다.")
-        val userIdx = claims["userId"] ?: throw RuntimeException("잘못된 토큰입니다.")
+        val memberId = claims["memberId"] ?: throw RuntimeException("잘못된 토큰입니다.")
 
         // 권한정보 추출
         val authorities: Collection<GrantedAuthority> = (auth as String) // 여긴 현재 아직 타입 몰라서 캐스팅 필요
             .split(",")
             .map { SimpleGrantedAuthority(it) }
 
-        val principal: UserDetails = CustomUser(userIdx.toString().toLong(), claims.subject, "", authorities)
+        val principal: UserDetails = CustomUser(memberId.toString().toLong(), claims.subject, "", authorities)
         return UsernamePasswordAuthenticationToken(principal, "", authorities)
     }
 
