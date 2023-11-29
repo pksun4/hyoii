@@ -2,19 +2,8 @@ package com.hyoii.domain.member
 
 import com.hyoii.common.BaseEntity
 import com.hyoii.enums.GenderEnums
-import com.hyoii.enums.RoleEnums
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.Column
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.Enumerated
-import jakarta.persistence.EnumType
-import jakarta.persistence.OneToMany
-import jakarta.persistence.ManyToOne
-import jakarta.persistence.FetchType
-import jakarta.persistence.ForeignKey
+import jakarta.persistence.*
+import java.io.Serial
 
 @Entity
 data class Member(
@@ -47,4 +36,9 @@ data class Member(
         idx!!, email, name, gender.gender
 
     )
+
+    companion object {
+        @Serial
+        private const val serialVersionUID: Long = -8846109021518852076L
+    }
 }

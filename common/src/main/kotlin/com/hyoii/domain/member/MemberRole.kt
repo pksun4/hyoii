@@ -3,6 +3,7 @@ package com.hyoii.domain.member
 import com.hyoii.common.BaseEntity
 import com.hyoii.enums.RoleEnums
 import jakarta.persistence.*
+import java.io.Serial
 
 @Entity
 data class MemberRole(
@@ -19,4 +20,9 @@ data class MemberRole(
     @JoinColumn(foreignKey = ForeignKey(name = "fk_member_role_1"))
     var member: Member
 
-) : BaseEntity()
+) : BaseEntity() {
+    companion object {
+        @Serial
+        private const val serialVersionUID: Long = 6850736501224894548L
+    }
+}
