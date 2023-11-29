@@ -48,20 +48,3 @@ data class Member(
 
     )
 }
-
-@Entity
-class MemberRole(
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var idx: Long? = null,
-
-    @Column(nullable = false, length = 20)
-    @Enumerated(EnumType.STRING)
-    var role: RoleEnums,
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(foreignKey = ForeignKey(name = "fk_member_role_1"))
-    var member: Member
-
-) : BaseEntity()
