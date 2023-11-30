@@ -10,7 +10,7 @@ data class MemberRole(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var idx: Long? = null,
+    var id: Long? = null,
 
     @Column(nullable = false, length = 20)
     @Enumerated(EnumType.STRING)

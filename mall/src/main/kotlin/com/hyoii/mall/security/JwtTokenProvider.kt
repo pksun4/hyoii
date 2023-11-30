@@ -60,7 +60,7 @@ class JwtTokenProvider {
     /**
      * 토큰 추출
      */
-    fun getAuthentication(token: String) : Authentication {
+    fun parseToken(token: String) : Authentication {
         val claims: Claims = getClaims(token)
 
         val auth = claims["auth"] ?: throw RuntimeException("잘못된 토큰입니다.")

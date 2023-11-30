@@ -17,5 +17,8 @@ enum class MessageEnums(val code: String, val message: String) {
 
     // 6000번대 인증관련
     LOGIN_FAIL("6000", "로그인에 실패했습니다."),
-    LOGIN_INCORRECT("6001", "아이디 비밀번호를 확인해주세요.")
+    LOGIN_INCORRECT("6001", "아이디 비밀번호를 확인해주세요."),
+    REFRESH_TOKEN_ISSUE_FAIL("6002", "토큰 재발급 중 오류가 발생했습니다."),
+    REFRESH_TOKEN_INVALID("6002", "유효하지 않은 리프레시 토큰입니다."),
+
 }

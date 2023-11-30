@@ -21,17 +21,29 @@ class AuthController(
      * 회원가입
      */
     @PostMapping("/signup")
-    fun signUp(@RequestBody @Valid memberDto: MemberDto) = memberService.signUp(memberDto).fold(
+    suspend fun signUp(@RequestBody @Valid memberDto: MemberDto) = memberService.signUp(memberDto).fold(
         { ResponseData.fail(it.messageEnums) },
         { ResponseData.success(it) }
     )
 
     /**
-     * 로그인
+     * 토큰 발급
      */
     @PostMapping("/login")
-    fun login(@RequestBody @Valid memberLoginDto: MemberLoginDto) = authService.login(memberLoginDto).fold(
+    suspend fun login(@RequestBody @Valid memberLoginDto: MemberLoginDto) = authService.login(memberLoginDto).fold(
         { ResponseData.fail(it.messageEnums) },
         { ResponseData.success(it) }
     )
+
+    /**
+     * 토큰 재발급
+     */
+    @PostMapping("/reissue")
+    suspend fun reissue(
+        @RequestBody @Valid authDto: AuthTokenDto) = authService.reissueToken(authDto).fold(
+        { ResponseData.fail(it.messageEnums) },
+        { ResponseData.success(it) }
+    )
+
+
 }

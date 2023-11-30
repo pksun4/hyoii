@@ -10,7 +10,7 @@ data class Member(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var idx: Long?,
+    var id: Long?,
 
     @Column(nullable = false, length = 200)
     var email: String,
@@ -33,7 +33,7 @@ data class Member(
      * Entity to Dto
      */
     fun toDto() = MemberResDto(
-        idx!!, email, name, gender.gender
+        id!!, email, name, gender.gender
 
     )
 

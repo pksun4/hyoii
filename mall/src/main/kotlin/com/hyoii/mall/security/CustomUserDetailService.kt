@@ -19,7 +19,7 @@ class CustomUserDetailService(
 
     private fun createUserDetails(member: Member) : UserDetails =
         CustomUser(
-            member.idx!!,
+            member.id!!,
             member.email,
             member.password,
             member.memberRole!!.map { SimpleGrantedAuthority("ROLE_${it.role}") }

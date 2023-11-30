@@ -18,7 +18,7 @@ class JwtAuthenticationFilter(
     override fun doFilter(request: ServletRequest?, response: ServletResponse?, chain: FilterChain?) {
         val token = resolveToken(request as HttpServletRequest)
         if (token != null && jwtTokenProvider.validateToken(token)) {
-            val authentication = jwtTokenProvider.getAuthentication(token)
+            val authentication = jwtTokenProvider.parseToken(token)
             SecurityContextHolder.getContext().authentication = authentication // SecurityContextHolder 에 기록 후 사용하게 됨
         }
 
