@@ -6,7 +6,7 @@ enum class MessageEnums(val code: String, val message: String) {
     FAIL("400", "잘못된 요청입니다."),
     ERROR("500", "오류가 발생했습니다."),
 
-    // Common
+    // 4000번대 Common
     INVALID_PARAMETER("4000", "파라미터 유효성검증에 실패했습니다."),
 
     // 5000번대 Member
@@ -21,4 +21,6 @@ enum class MessageEnums(val code: String, val message: String) {
     REFRESH_TOKEN_ISSUE_FAIL("6002", "토큰 재발급 중 오류가 발생했습니다."),
     REFRESH_TOKEN_INVALID("6002", "유효하지 않은 리프레시 토큰입니다."),
 
+    // 7000번대 API 통신
+    WEB_CLIENT_ERROR("7000", "API 통신 중 오류가 발생했습니다.")
 }

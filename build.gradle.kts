@@ -58,6 +58,7 @@ subprojects {
             implementation("org.yaml:snakeyaml:2.0")
         }
         implementation("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
+        implementation("org.springframework.boot:spring-boot-starter-webflux:$springBootVersion")
 
         // jackson
         implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")

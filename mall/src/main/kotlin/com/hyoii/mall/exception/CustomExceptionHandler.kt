@@ -45,6 +45,12 @@ class CustomExceptionHandler {
         return ResponseEntity(ResponseException(MessageEnums.LOGIN_INCORRECT.code, MessageEnums.LOGIN_INCORRECT.message, errors), HttpStatus.BAD_REQUEST)
     }
 
+    @ExceptionHandler(WebClientException::class)
+    protected fun webClientException(ex: Exception) : ResponseEntity<ResponseException<Map<String, String>>> {
+        val errors = mapOf("cause" to (ex.message ?: "Not Exception Message"))
+        return ResponseEntity(ResponseException(MessageEnums.WEB_CLIENT_ERROR.code, MessageEnums.WEB_CLIENT_ERROR.message, errors), HttpStatus.BAD_REQUEST)
+    }
+
     /**
      * 나머지 exception
      */
