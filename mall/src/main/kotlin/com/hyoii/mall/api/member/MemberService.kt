@@ -33,7 +33,6 @@ class MemberService(
                 val savedMember = memberRepository.save(member)
                 memberRoleRepository.save(
                     MemberRole(
-                    null,
                     RoleEnums.MEMBER,
                     savedMember
                 )

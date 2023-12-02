@@ -18,13 +18,13 @@ abstract class BaseEntity : Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected var id: Long? = null
+    var id: Long? = null
 
     @CreatedDate
     @Column(name = "created_dt", nullable = false, updatable = false)
-    protected var createdDt: LocalDateTime = LocalDateTime.now()
+    var createdDt: LocalDateTime = LocalDateTime.now()
 
     @LastModifiedDate
     @Column(name = "modified_dt", nullable = false)
-    protected var modifiedDt: LocalDateTime = LocalDateTime.now()
+    var modifiedDt: LocalDateTime = LocalDateTime.now()
 }

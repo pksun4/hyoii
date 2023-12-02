@@ -14,7 +14,6 @@ class TestController(
     @GetMapping("/api")
     suspend fun testApi() = testService.testApi(
         MemberDto(
-            idx = null,
             _password = "1111",
             _gender = "F",
             _email = "test@daum.net",

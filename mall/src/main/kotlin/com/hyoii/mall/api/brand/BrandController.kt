@@ -1,7 +1,12 @@
 package com.hyoii.mall.api.brand
 
 import com.hyoii.mall.common.res.ResponseData
+import jakarta.validation.Valid
+import jakarta.validation.constraints.NotBlank
+import jakarta.validation.constraints.NotNull
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -16,4 +21,28 @@ class BrandController(
         { ResponseData.fail(it.messageEnums) },
         { ResponseData.success(it) }
     )
+
+    @PostMapping
+    fun saveBrand(
+        @RequestBody @Valid
+        brandRequestDto: BrandRequestDto
+    ) = brandService.saveBrand(brandRequestDto).fold(
+        { ResponseData.fail(it.messageEnums) },
+        { ResponseData.success(it) }
+    )
 }
+
+class BrandRequestDto(
+    @field:NotBlank(message = "브랜드명은 필수값입니다.")
+    val brand: String,
+    val memo: String?,
+    @field:Valid @field:NotNull
+    val brandImage: BrandImageRequestDto
+)
+
+class BrandImageRequestDto(
+    @field:NotBlank(message = "브랜드 이미지 형식은 필수값입니다.")
+    val extension: String,
+    @field:NotBlank(message = "브랜드 이미지 경로는 필수값입니다.")
+    val path: String,
+)

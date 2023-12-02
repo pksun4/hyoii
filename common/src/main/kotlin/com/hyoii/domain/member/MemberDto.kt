@@ -9,8 +9,6 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 data class MemberDto (
-    var idx: Long?,
-
     @field:NotBlank
     @JsonProperty("email")
     @field:Email
@@ -48,7 +46,7 @@ data class MemberDto (
      * Entity 변환
      */
     fun toEntity(): Member = Member(
-        idx, email, password, name, gender
+        email, password, name, gender
     )
 
 }
