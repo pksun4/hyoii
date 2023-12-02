@@ -6,9 +6,7 @@ import java.io.Serial
 
 @Entity
 data class MemberToken(
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long?,
+
     @Column(length = 100, nullable = false)
     var accessToken: String,
     @Column(length = 100, nullable = false)
@@ -16,6 +14,7 @@ data class MemberToken(
     @OneToOne
     @JoinColumn(foreignKey = ForeignKey(name = "fk_member_token_1"))
     var member: Member
+
 ) : BaseEntity() {
     companion object {
         @Serial

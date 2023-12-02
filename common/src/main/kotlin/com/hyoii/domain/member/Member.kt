@@ -8,10 +8,6 @@ import java.io.Serial
 @Entity
 data class Member(
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long?,
-
     @Column(nullable = false, length = 200)
     var email: String,
 

@@ -8,10 +8,6 @@ import java.io.Serial
 @Entity
 data class MemberRole(
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long? = null,
-
     @Column(nullable = false, length = 20)
     @Enumerated(EnumType.STRING)
     var role: RoleEnums,
