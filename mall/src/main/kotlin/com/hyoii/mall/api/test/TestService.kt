@@ -1,7 +1,7 @@
 package com.hyoii.mall.api.test
 
 import arrow.core.right
-import com.hyoii.domain.member.MemberDto
+import com.hyoii.mall.api.member.SignUpRequestDto
 import com.hyoii.mall.common.client.HostUri
 import com.hyoii.mall.common.client.WebClientHeader
 import com.hyoii.mall.common.client.WebClientService
@@ -12,13 +12,13 @@ class TestService(
     private val webClientService: WebClientService
 ) {
 
-    suspend fun testApi(memberDto: MemberDto) = webClientService.executePost(
+    suspend fun testApi(signUpRequestDto: SignUpRequestDto) = webClientService.executePost(
         header = WebClientHeader(accessToken = null),
         hostUri = HostUri("localhost", "9090", "/api/v1/auth/signup"),
-        requestBodyValue = memberDto,
+        requestBodyValue = signUpRequestDto,
         responseKClass = String::class
     ).fold(
-        {null},
+        {fail -> fail.messageEnums},
         {response -> response.right()}
     )
 

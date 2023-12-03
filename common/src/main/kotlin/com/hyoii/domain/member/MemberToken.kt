@@ -8,11 +8,11 @@ import java.io.Serial
 @Table(name = "member_token")
 data class MemberToken(
 
-    @Column(name = "access_token", length = 100, nullable = false)
+    @Column(name = "access_token", length = 300, nullable = false)
     var accessToken: String,
     @Column(name = "refresh_token", length = 100, nullable = false)
     var refreshToken: String,
-    @OneToOne
+    @ManyToOne
     @JoinColumn(foreignKey = ForeignKey(name = "fk_member_token_1"))
     var member: Member
 

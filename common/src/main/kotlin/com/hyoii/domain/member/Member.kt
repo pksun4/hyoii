@@ -25,16 +25,20 @@ data class Member(
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "member", targetEntity = MemberRole::class)
     var memberRole: List<MemberRole>? = mutableListOf()
 
-    /**
-     * Entity to Dto
-     */
-    fun toDto() = MemberResDto(
-        id!!, email, name, gender.gender
-
-    )
-
     companion object {
         @Serial
         private const val serialVersionUID: Long = -8846109021518852076L
+
+        fun from(
+            email: String,
+            password: String,
+            name: String,
+            gender: GenderEnums
+        ) = Member(
+            email = email,
+            password = password,
+            name = name,
+            gender = gender
+        )
     }
 }

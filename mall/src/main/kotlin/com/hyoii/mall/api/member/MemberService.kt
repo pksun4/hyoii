@@ -2,12 +2,12 @@ package com.hyoii.mall.domain.member
 
 import arrow.core.left
 import arrow.core.right
-import com.hyoii.domain.member.MemberDto
-import com.hyoii.domain.member.MemberRepository
-import com.hyoii.domain.member.MemberRole
-import com.hyoii.domain.member.MemberRoleRepository
+import com.hyoii.domain.member.*
+import com.hyoii.enums.GenderEnums
 import com.hyoii.enums.MessageEnums
 import com.hyoii.enums.RoleEnums
+import com.hyoii.mall.api.member.SignUpRequestDto
+import com.hyoii.mall.security.SecurityUtil.passwordEncode
 import jakarta.transaction.Transactional
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
@@ -15,29 +15,34 @@ import org.springframework.stereotype.Service
 @Service
 class MemberService(
     private val memberRepository: MemberRepository,
-    private val memberRoleRepository: MemberRoleRepository,
-    private val passwordEncoder: PasswordEncoder
+    private val memberRoleRepository: MemberRoleRepository
 ) {
 
     /**
      * 회원가입
      */
     @Transactional
-    fun signUp(memberDto: MemberDto) =
+    fun signUp(signUpRequestDto: SignUpRequestDto) =
         runCatching {
-            val member = memberRepository.findByEmail(memberDto.email)
+            val member = memberRepository.findByEmail(signUpRequestDto.email)
             if (member != null) {
                 MemberError.MemberExist.left()
             } else {
-                val member = memberDto.toEntity().apply { this.password = passwordEncoder.encode(this.password) }
-                val savedMember = memberRepository.save(member)
-                memberRoleRepository.save(
-                    MemberRole(
-                    RoleEnums.MEMBER,
-                    savedMember
-                )
-                )
-                savedMember.right()
+                memberRepository.save(
+                    Member.from(
+                        email = signUpRequestDto.email,
+                        password = signUpRequestDto.password.passwordEncode(),
+                        name = signUpRequestDto.name,
+                        gender = GenderEnums.valueOf(signUpRequestDto.gender)
+                    )
+                ).apply {
+                    memberRoleRepository.save(
+                        MemberRole(
+                            RoleEnums.MEMBER,
+                            this
+                        )
+                    )
+                }.right()
             }
         }.getOrElse {
             MemberError.MemberSignUp.left()

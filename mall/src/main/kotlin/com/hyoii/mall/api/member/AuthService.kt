@@ -2,7 +2,8 @@ package com.hyoii.mall.api.member
 
 import arrow.core.left
 import arrow.core.right
-import com.hyoii.domain.member.MemberLoginDto
+import com.hyoii.domain.member.MemberRepository
+import com.hyoii.domain.member.MemberToken
 import com.hyoii.domain.member.MemberTokenRepository
 import com.hyoii.enums.MessageEnums
 import com.hyoii.mall.security.CustomUser
@@ -18,25 +19,37 @@ import org.springframework.stereotype.Service
 class AuthService(
     private val authenticationManagerBuilder: AuthenticationManagerBuilder,
     private val jwtTokenProvider: JwtTokenProvider,
-    private val memberTokenRepository: MemberTokenRepository
+    private val memberTokenRepository: MemberTokenRepository,
+    private val memberRepository: MemberRepository
 ) {
     companion object {
         private const val GRANT_TYPE = "Bearer"
     }
 
-    suspend fun login(memberLoginDto: MemberLoginDto) =
+    @Transactional
+    suspend fun login(loginRequestDto: LoginRequestDto) =
         runCatching {
             // 로그인 아이디/비밀번호 기반으로 AuthenticationToken 생성
             val authenticationToken = UsernamePasswordAuthenticationToken(
-                memberLoginDto.email,
-                memberLoginDto.password
+                loginRequestDto.email,
+                loginRequestDto.password
             )
             // 실제로 아이디/비밀번호 검증이 이루어지는 부분
             // authenticate 실행될 때 CustomUserDetailService 에서 만든 loadUserByUsername 실행
             val authentication = authenticationManagerBuilder.`object`.authenticate(authenticationToken)
 
-            // 인증정보 바탕으로 토큰 생성
-            buildToken(authentication).right()
+            memberRepository.findByEmail(loginRequestDto.email)?.let {
+                // 인증정보 바탕으로 토큰 생성
+                buildToken(authentication).apply {
+                    memberTokenRepository.save(
+                        MemberToken(
+                            this.accessToken,
+                            this.refreshToken,
+                            member = it
+                        )
+                    )
+                }.right()
+            } ?: AuthError.LoginFail.left()
         }.getOrElse {
             println(it.message)
             AuthError.LoginFail.left()
