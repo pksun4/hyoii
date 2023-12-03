@@ -5,7 +5,7 @@ import jakarta.persistence.*
 import java.io.Serial
 
 @Entity
-@Table
+@Table(name = "brand_image")
 data class BrandImage(
 
     @Column(length = 200, nullable = false)

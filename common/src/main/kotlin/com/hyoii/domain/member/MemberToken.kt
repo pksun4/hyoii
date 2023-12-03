@@ -5,11 +5,12 @@ import jakarta.persistence.*
 import java.io.Serial
 
 @Entity
+@Table(name = "member_token")
 data class MemberToken(
 
-    @Column(length = 100, nullable = false)
+    @Column(name = "access_token", length = 100, nullable = false)
     var accessToken: String,
-    @Column(length = 100, nullable = false)
+    @Column(name = "refresh_token", length = 100, nullable = false)
     var refreshToken: String,
     @OneToOne
     @JoinColumn(foreignKey = ForeignKey(name = "fk_member_token_1"))

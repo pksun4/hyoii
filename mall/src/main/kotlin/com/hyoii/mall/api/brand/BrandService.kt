@@ -9,6 +9,7 @@ import com.hyoii.domain.brand.BrandRepository
 import com.hyoii.enums.MessageEnums
 import com.hyoii.utils.logger
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class BrandService(
@@ -16,6 +17,7 @@ class BrandService(
     private val brandImageRepository: BrandImageRepository
 ) {
 
+    @Transactional(readOnly = true)
     fun getBrands() =
         runCatching {
             brandRepository.findAll().right()
@@ -24,6 +26,7 @@ class BrandService(
             BrandError.UNKNOWN.left()
         }
 
+    @Transactional
     fun saveBrand(brandRequestDto: BrandRequestDto) =
         runCatching {
             brandRepository.save(Brand.from(brandRequestDto.brand, brandRequestDto.memo)).apply {
@@ -34,8 +37,7 @@ class BrandService(
                         this
                     )
                 )
-                this.right()
-            }
+            }.right()
         }.getOrElse {
             BrandError.UNKNOWN.left()
         }
