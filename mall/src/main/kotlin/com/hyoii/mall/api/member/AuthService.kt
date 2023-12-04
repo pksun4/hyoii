@@ -5,6 +5,7 @@ import arrow.core.right
 import com.hyoii.domain.member.MemberRepository
 import com.hyoii.domain.member.MemberToken
 import com.hyoii.domain.member.MemberTokenRepository
+import com.hyoii.domain.member.MemberTokenRepositorySupport
 import com.hyoii.enums.MessageEnums
 import com.hyoii.mall.security.CustomUser
 import com.hyoii.mall.security.JwtTokenProvider
@@ -20,6 +21,7 @@ class AuthService(
     private val authenticationManagerBuilder: AuthenticationManagerBuilder,
     private val jwtTokenProvider: JwtTokenProvider,
     private val memberTokenRepository: MemberTokenRepository,
+    private val memberTokenRepositorySupport: MemberTokenRepositorySupport,
     private val memberRepository: MemberRepository
 ) {
     companion object {
@@ -62,7 +64,7 @@ class AuthService(
                 AuthError.RefreshTokenInvalid.left()
             }
             val authentication: Authentication =  jwtTokenProvider.parseToken(authTokenDto.accessToken)
-            val memberToken = memberTokenRepository.findByMemberId((authentication.principal as CustomUser).memberId)
+            val memberToken = memberTokenRepositorySupport.findRecentTokenByMemberId((authentication.principal as CustomUser).memberId)
             memberToken?.let {
                 if (memberToken.refreshToken != authTokenDto.refreshToken) {
                     AuthError.RefreshTokenIssueFail.left()
