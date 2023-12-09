@@ -59,20 +59,20 @@ class DataSourceConfig {
     ) = JpaTransactionManager(entityManagerFactory)
 
     private fun jpaProperties() = mapOf(
-        "hibernate.hbm2ddl.auto" to HIBERNATE_DDL_AUTO,
-        "hibernate.show_sql" to HIBERNATE_SHOW_SQL,
-        "hibernate.format_sql" to HIBERNATE_FORMAT_SQL,
-        "hibernate.highlight_sql" to HIBERNATE_HIGHLIGHT_SQL,
-        "hibernate.id.new_generator_mapping" to NEW_GENERATOR_MAPPING,
-        "hibernate.dialect" to HIBERNATE_DIALECT
+        "hibernate.hbm2ddl.auto" to DDL_AUTO,
+        "hibernate.show_sql" to SHOW_SQL,
+        "hibernate.format_sql" to FORMAT_SQL,
+        "hibernate.highlight_sql" to HIGHLIGHT_SQL,
+        "hibernate.dialect" to DIALECT,
+        "hibernate.id.new_generator_mapping" to NEW_GENERATOR_MAPPING
     )
 
     companion object {
-        private const val HIBERNATE_DDL_AUTO = "update"
-        private const val HIBERNATE_SHOW_SQL = true
-        private const val HIBERNATE_FORMAT_SQL = true
-        private const val HIBERNATE_HIGHLIGHT_SQL = true
+        private const val DDL_AUTO = "update"
+        private const val SHOW_SQL = true
+        private const val FORMAT_SQL = true
+        private const val HIGHLIGHT_SQL = true
+        private const val DIALECT = "org.hibernate.dialect.MySQLDialect"
         private const val NEW_GENERATOR_MAPPING = false
-        private const val HIBERNATE_DIALECT = "org.hibernate.dialect.MySQLDialect"
     }
 }

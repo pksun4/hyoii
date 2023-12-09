@@ -10,8 +10,11 @@ import java.io.Serial
 @Entity
 data class Brand(
 
-    @Column(length = 100, nullable = false)
-    var brand: String,
+    @Column(name = "brand_ko", length = 100, nullable = false)
+    var brandKo: String,
+
+    @Column(name = "brand_en", length = 100, nullable = false)
+    var brandEn: String,
 
     @Column(length = 200)
     var memo: String?
@@ -25,10 +28,12 @@ data class Brand(
         var brandImage: BrandImage? = null
 
         fun from(
-            brand: String,
+            brandKo: String,
+            brandEn: String,
             memo: String?
         ) = Brand(
-            brand = brand,
+            brandKo = brandKo,
+            brandEn = brandEn,
             memo = memo
         )
     }

@@ -27,9 +27,9 @@ class BrandService(
         }
 
     @Transactional
-    fun saveBrand(brandRequestDto: BrandRequestDto) =
+    fun saveBrand(brandRequestDto: BrandRequest) =
         runCatching {
-            brandRepository.save(Brand.from(brandRequestDto.brand, brandRequestDto.memo)).apply {
+            brandRepository.save(Brand.from(brandRequestDto.brandKo, brandRequestDto.brandEn, brandRequestDto.memo)).apply {
                 brandImageRepository.save(
                     BrandImage.from(
                         brandRequestDto.brandImage.path,
@@ -38,6 +38,19 @@ class BrandService(
                     )
                 )
             }.right()
+        }.getOrElse {
+            BrandError.UNKNOWN.left()
+        }
+
+    @Transactional
+    fun updateBrand(brandId: Long, brandUpdateRequest: BrandUpdateRequest) =
+        runCatching {
+            brandRepository.findBrandById(brandId)?.let {
+                it.brandKo = brandUpdateRequest.brandKo
+                it.brandEn = brandUpdateRequest.brandEn
+                it.memo = brandUpdateRequest.memo
+            }
+            Unit.right()
         }.getOrElse {
             BrandError.UNKNOWN.left()
         }
