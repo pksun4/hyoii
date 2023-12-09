@@ -3,10 +3,10 @@ package com.hyoii.config
 import com.zaxxer.hikari.HikariDataSource
 import jakarta.persistence.EntityManagerFactory
 import org.springframework.beans.factory.annotation.Qualifier
-import org.springframework.boot.autoconfigure.domain.EntityScan
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Import
 import org.springframework.context.annotation.Primary
@@ -17,12 +17,12 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter
 import org.springframework.transaction.annotation.EnableTransactionManagement
 
 @Configuration
+@ComponentScan(basePackages = ["com.hyoii.config", "com.hyoii.domain"])
 @EnableTransactionManagement
-@Import(QueryDslConfig::class)
-@EntityScan("com.hyoii.domain")
 @EnableJpaRepositories(
     basePackages = ["com.hyoii.domain"]
 )
+@Import(QueryDslConfig::class)
 class DataSourceConfig {
 
     @Bean
@@ -45,7 +45,7 @@ class DataSourceConfig {
         dataSource: HikariDataSource
     ) : EntityManagerFactory? = LocalContainerEntityManagerFactoryBean().apply {
         jpaVendorAdapter = HibernateJpaVendorAdapter()
-        persistenceUnitName = "common"
+        persistenceUnitName = "mall"
         setDataSource(dataSource)
         setPackagesToScan("com.hyoii.domain")
         setJpaPropertyMap(jpaProperties())
