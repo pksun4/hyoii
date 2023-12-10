@@ -5,9 +5,11 @@ import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.OneToOne
+import jakarta.persistence.Table
 import java.io.Serial
 
 @Entity
+@Table(name = "brand")
 data class Brand(
 
     @Column(name = "brand_ko", length = 100, nullable = false)

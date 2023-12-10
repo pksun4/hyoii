@@ -6,6 +6,7 @@ import jakarta.persistence.*
 import java.io.Serial
 
 @Entity
+@Table(name = "member")
 data class Member(
 
     @Column(nullable = false, length = 200)
