@@ -4,22 +4,25 @@ import com.hyoii.common.BaseEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Table
+import org.hibernate.annotations.ColumnDefault
 import java.io.Serial
 
 @Entity
 @Table(name = "product")
 data class Product(
 
-    @Column(name = "name", length = 200, nullable = false)
+    @Column(name = "name", length = 200, nullable = false, columnDefinition = "")
     var name: String,
 
     @Column(name = "number", length = 100, nullable = false)
     var number: String,
 
-    @Column(name = "read_count", columnDefinition = "0")
+    @Column(name = "read_count")
+    @ColumnDefault("0")
     var readCount: Int,
 
-    @Column(name = "stock", columnDefinition = "0")
+    @Column(name = "stock")
+    @ColumnDefault("0")
     var stock: Int
 
 ) : BaseEntity() {

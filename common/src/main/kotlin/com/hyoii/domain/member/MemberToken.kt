@@ -12,7 +12,7 @@ data class MemberToken(
     var accessToken: String,
     @Column(name = "refresh_token", length = 100, nullable = false)
     var refreshToken: String,
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = ForeignKey(name = "fk_member_token_1"))
     var member: Member
 

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property resource="application.yml"/>
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    <springProperty name="root.path" source="log-path"/>
+
+    <appender name="applicationFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder>
+            <pattern>%date %level [%thread] %logger{35} %line - %msg%n%ex{full}-=-AppLog-=-%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${root.path}/application.log.%d{yyyyMMddHH}</fileNamePattern>
+            <maxHistory>720</maxHistory>
+        </rollingPolicy>
+    </appender>
+    <appender name="consoleAccessLogAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.contrib.json.classic.JsonLayout">
+            <timestampFormat>yyyy-MM-dd' 'HH:mm:ss.SSS</timestampFormat>
+        </layout>
+    </appender>
+
+    <springProfile name="local">
+        <root level="DEBUG">
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="applicationFileAppender"/>
+        </root>
+        <logger name="com.hyoii" level="DEBUG"/>
+        <logger name="com.hyoii.mall" level="DEBUG"/>
+        <logger name="org.hibernate.HQL_FUNCTIONS" level="INFO"/>
+        <logger name="o.h.q.sqm.function.SqmFunctionRegistry" level="INFO"/>
+        <logger name="o.h.b.model.internal.BasicValueBinder" level="INFO"/>
+        <logger name="org.hibernate.type.BasicTypeRegistry" level="INFO"/>
+        <logger name="o.h.q.sqm.function.SqmFunctionRegistry" level="INFO"/>
+        <logger name="org.hibernate.bytecode.internal.bytebuddy" level="INFO"/>
+        <logger name="org.springframework" level="INFO"/>
+    </springProfile>
+</configuration>

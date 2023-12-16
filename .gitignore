@@ -36,4 +36,8 @@ out/
 ### VS Code ###
 .vscode/
 
+### CONFIG ###
 application.yml
+
+### LOG ###
+/logs
