@@ -24,7 +24,7 @@ class SecurityConfig(
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) } // JWT 사용위해 세션 사용하지 않음
             .authorizeHttpRequests {
                 it.requestMatchers("/").permitAll()
-                    .requestMatchers("/api/v1/auth/signup", "/api/v1/auth/login", "/api/v1/test/api", "/api/v1/brands/**").anonymous()
+                    .requestMatchers("/api/v1/auth/signup", "/api/v1/auth/login", "/api/v1/test/**", "/api/v1/brands/**").anonymous()
                     .requestMatchers("/api/v1/member/**").hasRole("MEMBER")
                     .anyRequest().authenticated()
             }
