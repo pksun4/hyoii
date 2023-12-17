@@ -1,7 +1,7 @@
 package com.hyoii.mall.product
 
 import com.hyoii.domain.product.ProductRepository
-import com.hyoii.mall.api.product.ProductService
+import com.hyoii.domain.product.ProductService
 import io.mockk.mockk
 import org.junit.jupiter.api.Test
 

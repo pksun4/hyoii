@@ -1,4 +1,4 @@
-package com.hyoii.mall.security
+package com.hyoii.common.security
 
 import jakarta.servlet.FilterChain
 import jakarta.servlet.ServletRequest

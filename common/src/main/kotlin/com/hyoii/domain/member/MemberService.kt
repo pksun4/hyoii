@@ -2,14 +2,16 @@ package com.hyoii.mall.domain.member
 
 import arrow.core.left
 import arrow.core.right
-import com.hyoii.domain.member.*
+import com.hyoii.common.security.SecurityUtil.passwordEncode
+import com.hyoii.domain.member.Member
+import com.hyoii.domain.member.MemberRepository
+import com.hyoii.domain.member.MemberRole
+import com.hyoii.domain.member.MemberRoleRepository
+import com.hyoii.domain.member.SignUpRequest
 import com.hyoii.enums.GenderEnums
 import com.hyoii.enums.MessageEnums
 import com.hyoii.enums.RoleEnums
-import com.hyoii.mall.api.member.SignUpRequestDto
-import com.hyoii.mall.security.SecurityUtil.passwordEncode
 import jakarta.transaction.Transactional
-import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 
 @Service
@@ -22,18 +24,18 @@ class MemberService(
      * 회원가입
      */
     @Transactional
-    fun signUp(signUpRequestDto: SignUpRequestDto) =
+    fun signUp(signUpRequest: SignUpRequest) =
         runCatching {
-            val member = memberRepository.findByEmail(signUpRequestDto.email)
+            val member = memberRepository.findByEmail(signUpRequest.email)
             if (member != null) {
                 MemberError.MemberExist.left()
             } else {
                 memberRepository.save(
                     Member.from(
-                        email = signUpRequestDto.email,
-                        password = signUpRequestDto.password.passwordEncode(),
-                        name = signUpRequestDto.name,
-                        gender = GenderEnums.valueOf(signUpRequestDto.gender)
+                        email = signUpRequest.email,
+                        password = signUpRequest.password.passwordEncode(),
+                        name = signUpRequest.name,
+                        gender = GenderEnums.valueOf(signUpRequest.gender)
                     )
                 ).apply {
                     memberRoleRepository.save(

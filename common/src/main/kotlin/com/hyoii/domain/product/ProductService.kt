@@ -1,4 +1,4 @@
-package com.hyoii.mall.api.product
+package com.hyoii.domain.product
 
 import com.hyoii.domain.product.ProductRepository
 import org.springframework.stereotype.Service

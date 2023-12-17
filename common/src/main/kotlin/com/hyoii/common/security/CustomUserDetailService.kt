@@ -1,4 +1,4 @@
-package com.hyoii.mall.security
+package com.hyoii.common.security
 
 import com.hyoii.domain.member.Member
 import com.hyoii.domain.member.MemberRepository

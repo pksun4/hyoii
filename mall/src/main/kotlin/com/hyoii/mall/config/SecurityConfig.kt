@@ -1,7 +1,7 @@
 package com.hyoii.mall.config
 
-import com.hyoii.mall.security.JwtAuthenticationFilter
-import com.hyoii.mall.security.JwtTokenProvider
+import com.hyoii.common.security.JwtAuthenticationFilter
+import com.hyoii.common.security.JwtTokenProvider
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity

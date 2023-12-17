@@ -1,4 +1,4 @@
-package com.hyoii.mall.security
+package com.hyoii.common.security
 
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.User

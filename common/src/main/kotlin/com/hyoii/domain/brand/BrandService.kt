@@ -1,11 +1,7 @@
-package com.hyoii.mall.api.brand
+package com.hyoii.domain.brand
 
 import arrow.core.left
 import arrow.core.right
-import com.hyoii.domain.brand.Brand
-import com.hyoii.domain.brand.BrandImage
-import com.hyoii.domain.brand.BrandImageRepository
-import com.hyoii.domain.brand.BrandRepository
 import com.hyoii.enums.MessageEnums
 import com.hyoii.utils.logger
 import org.springframework.stereotype.Service
@@ -27,13 +23,13 @@ class BrandService(
         }
 
     @Transactional
-    fun saveBrand(brandRequestDto: BrandRequest) =
+    fun saveBrand(brandRequest: BrandRequest) =
         runCatching {
-            brandRepository.save(Brand.from(brandRequestDto.brandKo, brandRequestDto.brandEn, brandRequestDto.memo)).apply {
+            brandRepository.save(Brand.from(brandRequest.brandKo, brandRequest.brandEn, brandRequest.memo)).apply {
                 brandImageRepository.save(
                     BrandImage.from(
-                        brandRequestDto.brandImage.path,
-                        brandRequestDto.brandImage.extension,
+                        brandRequest.brandImage.path,
+                        brandRequest.brandImage.extension,
                         this
                     )
                 )
