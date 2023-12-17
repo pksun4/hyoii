@@ -49,8 +49,8 @@ class AuthService(
                 }.right()
             } ?: AuthError.LoginFail.left()
         }.getOrElse {
-            println(it.message)
-            AuthError.LoginFail.left()
+            it.errorLogging(this.javaClass)
+            it.throwUnknownError()
         }
 
     @Transactional
@@ -73,8 +73,8 @@ class AuthService(
                 freshToken.right()
             } ?: AuthError.RefreshTokenIssueFail.left()
         }.getOrElse {
-            logger().error(it.message)
-            AuthError.RefreshTokenIssueFail.left()
+            it.errorLogging(this.javaClass)
+            it.throwUnknownError()
         }
 
     private fun buildToken(authentication: Authentication) =
@@ -83,12 +83,17 @@ class AuthService(
             accessToken = jwtTokenProvider.createToken(authentication),
             refreshToken = jwtTokenProvider.createRefreshToken(authentication)
         )
+
+    private fun <C> Throwable.errorLogging(kClass: Class<C>) = logger().error("[Error][${kClass.javaClass.methods.first().name}]", this)
+    private fun Throwable.throwUnknownError() = AuthError.Unknown(this.javaClass.name).left()
 }
 
 sealed class AuthError(
     val messageEnums: MessageEnums
 ) {
-    object LoginFail: AuthError(MessageEnums.LOGIN_FAIL)
-    object RefreshTokenIssueFail: AuthError(MessageEnums.REFRESH_TOKEN_ISSUE_FAIL)
-    object RefreshTokenInvalid: AuthError(MessageEnums.REFRESH_TOKEN_INVALID)
+    data object LoginFail: AuthError(MessageEnums.LOGIN_FAIL)
+    data object RefreshTokenIssueFail: AuthError(MessageEnums.REFRESH_TOKEN_ISSUE_FAIL)
+    data object RefreshTokenInvalid: AuthError(MessageEnums.REFRESH_TOKEN_INVALID)
+
+    data class Unknown(val className: String): AuthError(MessageEnums.ERROR)
 }

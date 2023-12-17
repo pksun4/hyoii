@@ -18,8 +18,8 @@ class BrandService(
         runCatching {
             brandRepository.findAll().right()
         }.getOrElse {
-            logger().error("getBrands")
-            BrandError.UNKNOWN.left()
+            it.errorLogging(this.javaClass)
+            it.throwUnknownError()
         }
 
     @Transactional
@@ -35,7 +35,8 @@ class BrandService(
                 )
             }.right()
         }.getOrElse {
-            BrandError.UNKNOWN.left()
+            it.errorLogging(this.javaClass)
+            it.throwUnknownError()
         }
 
     @Transactional
@@ -48,12 +49,16 @@ class BrandService(
             }
             Unit.right()
         }.getOrElse {
-            BrandError.UNKNOWN.left()
+            it.errorLogging(this.javaClass)
+            it.throwUnknownError()
         }
+
+    private fun Throwable.throwUnknownError() = BrandError.Unknown(this.javaClass.name).left()
+    private fun <C> Throwable.errorLogging(kClass: Class<C>) = logger().error("[Error][${kClass.javaClass.methods.first().name}]", this)
 }
 
 sealed class BrandError(
     val messageEnums: MessageEnums
 ) {
-    data object UNKNOWN : BrandError(MessageEnums.ERROR)
+    data class Unknown(val className: String) : BrandError(MessageEnums.ERROR)
 }

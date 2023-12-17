@@ -5,7 +5,7 @@ import com.hyoii.domain.member.AuthTokenRequest
 import com.hyoii.domain.member.LoginRequest
 import com.hyoii.domain.member.SignUpRequest
 import com.hyoii.mall.common.res.ResponseData
-import com.hyoii.mall.domain.member.MemberService
+import com.hyoii.domain.member.MemberService
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
