@@ -15,19 +15,25 @@ data class Product(
     var name: String,
 
     @Column(name = "number", length = 100, nullable = false)
-    var number: String,
+    var number: String
+
+) : BaseEntity() {
 
     @Column(name = "read_count")
     @ColumnDefault("0")
-    var readCount: Int,
+    var readCount: Int = 0
 
     @Column(name = "stock")
     @ColumnDefault("0")
-    var stock: Int
+    var stock: Int = 0
 
-) : BaseEntity() {
     companion object {
         @Serial
         private const val serialVersionUID: Long = 1626749272279599298L
+
+        fun from(productRequest: ProductRequest) = Product(
+            name = productRequest.name,
+            number = productRequest.number
+        )
     }
 }
