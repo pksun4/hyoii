@@ -20,12 +20,12 @@
     </appender>
 
     <springProfile name="local">
-        <root level="DEBUG">
+        <root level="INFO">
             <appender-ref ref="CONSOLE"/>
             <appender-ref ref="applicationFileAppender"/>
         </root>
-        <logger name="com.hyoii" level="DEBUG"/>
-        <logger name="com.hyoii.mall" level="DEBUG"/>
+        <logger name="com.hyoii" level="INFO"/>
+        <logger name="com.hyoii.mall" level="INFO"/>
         <logger name="org.hibernate.HQL_FUNCTIONS" level="INFO"/>
         <logger name="o.h.q.sqm.function.SqmFunctionRegistry" level="INFO"/>
         <logger name="o.h.b.model.internal.BasicValueBinder" level="INFO"/>

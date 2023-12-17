@@ -18,6 +18,4 @@ class MemberTokenRepositorySupport(
 }
 
 @Repository
-interface MemberTokenRepository : JpaRepository<MemberToken, Long> {
-    fun findByMemberId(memberId: Long): MemberToken?
-}
+interface MemberTokenRepository : JpaRepository<MemberToken, Long>
