@@ -8,7 +8,6 @@ import java.io.Serial
 @Entity
 @Table(name = "member")
 data class Member(
-
     @Column(nullable = false, length = 200)
     var email: String,
 
@@ -19,10 +18,8 @@ data class Member(
     var name: String,
 
     @Enumerated(EnumType.STRING)
-    var gender: GenderEnums,
-
+    var gender: GenderEnums
     ) : BaseEntity() {
-
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "member", targetEntity = MemberRole::class)
     var memberRole: List<MemberRole>? = mutableListOf()
 

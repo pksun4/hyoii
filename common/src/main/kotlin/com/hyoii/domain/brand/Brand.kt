@@ -11,7 +11,6 @@ import java.io.Serial
 @Entity
 @Table(name = "brand")
 data class Brand(
-
     @Column(name = "brand_ko", length = 100, nullable = false)
     var brandKo: String,
 
@@ -20,7 +19,6 @@ data class Brand(
 
     @Column(length = 200)
     var memo: String?
-
 ) : BaseEntity() {
     companion object {
         @Serial

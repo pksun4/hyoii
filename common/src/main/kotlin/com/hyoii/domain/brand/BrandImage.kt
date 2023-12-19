@@ -7,7 +7,6 @@ import java.io.Serial
 @Entity
 @Table(name = "brand_image")
 data class BrandImage(
-
     @Column(length = 200, nullable = false)
     var path: String,
 
@@ -17,7 +16,6 @@ data class BrandImage(
     @OneToOne
     @JoinColumn(foreignKey = ForeignKey(name = "brand_image_1"))
     var brand: Brand
-
 ) : BaseEntity() {
     companion object {
         @Serial
@@ -33,6 +31,4 @@ data class BrandImage(
             brand = brand
         )
     }
-
-
 }

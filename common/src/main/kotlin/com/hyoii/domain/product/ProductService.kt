@@ -2,7 +2,6 @@ package com.hyoii.domain.product
 
 import arrow.core.left
 import arrow.core.right
-import com.hyoii.domain.product.ProductRepository
 import com.hyoii.enums.MessageEnums
 import com.hyoii.utils.logger
 import org.springframework.stereotype.Service
