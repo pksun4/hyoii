@@ -20,21 +20,17 @@ data class Brand(
     @Column(length = 200)
     var memo: String?
 ) : BaseEntity() {
+    @OneToOne(mappedBy = "brand", targetEntity = BrandImage::class, cascade = [CascadeType.ALL])
+    var brandImage: BrandImage? = null
+
     companion object {
         @Serial
         private const val serialVersionUID: Long = -1856400393347765651L
 
-        @OneToOne(mappedBy = "brand", targetEntity = BrandImage::class, cascade = [CascadeType.ALL])
-        var brandImage: BrandImage? = null
-
-        fun from(
-            brandKo: String,
-            brandEn: String,
-            memo: String?
-        ) = Brand(
-            brandKo = brandKo,
-            brandEn = brandEn,
-            memo = memo
+        fun from(brandRequest: BrandRequest) = Brand(
+            brandKo = brandRequest.brandKo,
+            brandEn = brandRequest.brandEn,
+            memo = brandRequest.memo
         )
     }
 }

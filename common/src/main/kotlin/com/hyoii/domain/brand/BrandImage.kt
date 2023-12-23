@@ -12,23 +12,19 @@ data class BrandImage(
 
     @Column(length = 50, nullable = false)
     var extension: String,
+) : BaseEntity() {
 
     @OneToOne
-    @JoinColumn(foreignKey = ForeignKey(name = "brand_image_1"))
-    var brand: Brand
-) : BaseEntity() {
+    @JoinColumn(foreignKey = ForeignKey(name = "brand_image_1"), )
+    var brand: Brand? = null
+
     companion object {
         @Serial
         private const val serialVersionUID: Long = -1871912367941801453L
 
-        fun from(
-            path: String,
-            extension: String,
-            brand: Brand
-        ) = BrandImage(
-            path = path,
-            extension = extension,
-            brand = brand
+        fun from(brandImageRequest: BrandImageRequest) = BrandImage(
+            path = brandImageRequest.path,
+            extension = brandImageRequest.extension
         )
     }
 }

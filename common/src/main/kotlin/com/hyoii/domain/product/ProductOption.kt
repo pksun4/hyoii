@@ -9,7 +9,7 @@ import java.io.Serial
 
 @Entity
 @Table(name = "product_option")
-class ProductOption(
+data class ProductOption(
 
     @Column(name = "name")
     var name: String

@@ -9,8 +9,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class BrandService(
-    private val brandRepository: BrandRepository,
-    private val brandImageRepository: BrandImageRepository
+    private val brandRepository: BrandRepository
 ) {
 
     @Transactional(readOnly = true)
@@ -25,15 +24,11 @@ class BrandService(
     @Transactional
     fun saveBrand(brandRequest: BrandRequest) =
         runCatching {
-            brandRepository.save(Brand.from(brandRequest.brandKo, brandRequest.brandEn, brandRequest.memo)).apply {
-                brandImageRepository.save(
-                    BrandImage.from(
-                        brandRequest.brandImage.path,
-                        brandRequest.brandImage.extension,
-                        this
-                    )
-                )
-            }.right()
+            brandRepository.save(
+                Brand.from(brandRequest).apply {
+                    this.brandImage = BrandImage.from(brandRequest.brandImage)
+                }
+            ).right()
         }.getOrElse {
             it.errorLogging(this.javaClass)
             it.throwUnknownError()
