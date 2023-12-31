@@ -19,5 +19,10 @@ data class MemberRole(
     companion object {
         @Serial
         private const val serialVersionUID: Long = 6850736501224894548L
+
+        fun fromForMember(member: Member) = MemberRole(
+            role = RoleEnums.MEMBER,
+            member = member
+        )
     }
 }

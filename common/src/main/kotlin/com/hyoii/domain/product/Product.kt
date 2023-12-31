@@ -7,8 +7,10 @@ import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
 import jakarta.persistence.FetchType
+import jakarta.persistence.ForeignKey
+import jakarta.persistence.JoinColumn
+import jakarta.persistence.ManyToOne
 import jakarta.persistence.OneToMany
-import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
 import org.hibernate.annotations.ColumnDefault
 import java.io.Serial
@@ -17,34 +19,34 @@ import java.io.Serial
 @Table(name = "product")
 data class Product(
 
-    @Column(name = "name", length = 200, nullable = false, columnDefinition = "")
+    @Column(length = 200, nullable = false)
     var name: String,
 
-    @Column(name = "number", length = 100, nullable = false)
+    @Column(length = 100, nullable = false)
     var number: String,
 
-    @Column(name = "content", length = 500, nullable = false)
+    @Column(length = 500, nullable = false)
     var content: String,
 
-    @Column(name = "price")
+    @Column
     var price: Int,
 
-    @Column(name = "sale_price")
+    @Column
     var salePrice: Int,
 
-    @Column(name = "delivery_type")
     @Enumerated(EnumType.STRING)
     var deliveryType: DeliveryType,
 ) : BaseEntity() {
 
-    @Column(name = "read_count")
+    @Column
     @ColumnDefault("0")
     var readCount: Int? = 0
 
-    @OneToMany(fetch = FetchType.LAZY, targetEntity = ProductOption::class)
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = ProductOption::class, mappedBy = "product")
     var optionList : List<ProductOption>? = mutableListOf()
 
-    @OneToOne(fetch = FetchType.LAZY, targetEntity = Brand::class)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Brand::class)
+    @JoinColumn(foreignKey = ForeignKey(name = "fk_product_1"))
     var brand: Brand? = null
 
     companion object {

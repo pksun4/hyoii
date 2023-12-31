@@ -64,7 +64,8 @@ class DataSourceConfig {
         "hibernate.format_sql" to FORMAT_SQL,
         "hibernate.highlight_sql" to HIGHLIGHT_SQL,
         "hibernate.dialect" to DIALECT,
-        "hibernate.id.new_generator_mapping" to NEW_GENERATOR_MAPPING
+        "hibernate.id.new_generator_mapping" to NEW_GENERATOR_MAPPING,
+        "hibernate.physical_naming_strategy" to PHYSICAL_STRATEGY
     )
 
     companion object {
@@ -74,5 +75,6 @@ class DataSourceConfig {
         private const val HIGHLIGHT_SQL = true
         private const val DIALECT = "org.hibernate.dialect.MySQLDialect"
         private const val NEW_GENERATOR_MAPPING = false
+        private const val PHYSICAL_STRATEGY = "org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy"
     }
 }

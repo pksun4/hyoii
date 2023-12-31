@@ -2,18 +2,14 @@ package com.hyoii.domain.member
 
 import arrow.core.left
 import arrow.core.right
-import com.hyoii.common.security.SecurityUtil.passwordEncode
-import com.hyoii.enums.GenderEnums
 import com.hyoii.enums.MessageEnums
-import com.hyoii.enums.RoleEnums
 import com.hyoii.utils.logger
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 
 @Service
 class MemberService(
-    private val memberRepository: MemberRepository,
-    private val memberRoleRepository: MemberRoleRepository
+    private val memberRepository: MemberRepository
 ) {
 
     /**
@@ -22,26 +18,13 @@ class MemberService(
     @Transactional
     fun signUp(signUpRequest: SignUpRequest) =
         runCatching {
-            val member = memberRepository.findByEmail(signUpRequest.email)
-            if (member != null) {
-                MemberError.MemberExist.left()
-            } else {
+            memberRepository.findByEmail(signUpRequest.email)?.let {
                 memberRepository.save(
-                    Member.from(
-                        email = signUpRequest.email,
-                        password = signUpRequest.password.passwordEncode(),
-                        name = signUpRequest.name,
-                        gender = GenderEnums.valueOf(signUpRequest.gender)
-                    )
-                ).apply {
-                    memberRoleRepository.save(
-                        MemberRole(
-                            RoleEnums.MEMBER,
-                            this
-                        )
-                    )
-                }.right()
-            }
+                    Member.from(signUpRequest).apply {
+                        this.memberRole = mutableListOf(MemberRole.fromForMember(it))
+                    }
+                ).right()
+            } ?: MemberError.MemberExist.left()
         }.getOrElse {
             it.errorLogging(this.javaClass)
             it.throwUnknownError()

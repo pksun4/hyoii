@@ -1,6 +1,7 @@
 package com.hyoii.domain.member
 
 import com.hyoii.common.BaseEntity
+import com.hyoii.common.security.SecurityUtil.passwordEncode
 import com.hyoii.enums.GenderEnums
 import jakarta.persistence.*
 import java.io.Serial
@@ -19,24 +20,20 @@ data class Member(
 
     @Enumerated(EnumType.STRING)
     var gender: GenderEnums
-    ) : BaseEntity() {
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "member", targetEntity = MemberRole::class)
+) : BaseEntity() {
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "member", targetEntity = MemberRole::class, cascade = [CascadeType.ALL])
     var memberRole: List<MemberRole>? = mutableListOf()
 
     companion object {
         @Serial
         private const val serialVersionUID: Long = -8846109021518852076L
 
-        fun from(
-            email: String,
-            password: String,
-            name: String,
-            gender: GenderEnums
-        ) = Member(
-            email = email,
-            password = password,
-            name = name,
-            gender = gender
+        fun from(singUpRequest: SignUpRequest) = Member(
+            email = singUpRequest.email,
+            password = singUpRequest.password.passwordEncode(),
+            name = singUpRequest.name,
+            gender = GenderEnums.valueOf(singUpRequest.gender)
         )
     }
 }
