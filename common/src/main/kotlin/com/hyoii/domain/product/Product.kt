@@ -2,6 +2,7 @@ package com.hyoii.domain.product
 
 import com.hyoii.common.BaseEntity
 import com.hyoii.domain.brand.Brand
+import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
@@ -42,7 +43,7 @@ data class Product(
     @ColumnDefault("0")
     var readCount: Int? = 0
 
-    @OneToMany(fetch = FetchType.LAZY, targetEntity = ProductOption::class, mappedBy = "product")
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = ProductOption::class, mappedBy = "product", cascade = [CascadeType.PERSIST])
     var optionList : List<ProductOption>? = mutableListOf()
 
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = Brand::class)

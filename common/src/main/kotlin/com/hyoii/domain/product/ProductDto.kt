@@ -15,8 +15,14 @@ class ProductRequest(
     val price: Int,
     @field:NotNull(message = "할인 가격은 필수값 입니다.")
     val salePrice: Int,
-    @field:NotBlank(message = "배송 유형은 필수값 입니다.")
-    val deliveryType: Product.DeliveryType
+    @field:NotNull(message = "배송 유형은 필수값 입니다.")
+    val deliveryType: Product.DeliveryType,
+    val optionList: List<ProductOptionRequest>?
+)
+
+class ProductOptionRequest(
+    val name: String,
+    val stock: Int
 )
 
 class ProductResponse(

@@ -15,20 +15,28 @@ import java.io.Serial
 data class ProductOption(
 
     @Column(length = 100, nullable = false)
-    var name: String
-
-) : BaseEntity() {
+    var name: String,
 
     @Column
     @ColumnDefault("0")
-    var stock: Int = 0
+    var stock: Int = 0,
 
     @ManyToOne
     @JoinColumn(foreignKey = ForeignKey(name = "fk_product_option_1"))
-    var product: Product? = null
+    var product: Product?
+) : BaseEntity() {
 
     companion object {
         @Serial
         private const val serialVersionUID: Long = -6625420606770848114L
-    }
+
+        fun from(productRequest: ProductRequest, product: Product): MutableList<ProductOption>? =
+            productRequest.optionList?.map {
+                ProductOption(
+                    name = it.name,
+                    stock = it.stock,
+                    product = product
+                )
+            }?.toMutableList()
+        }
 }

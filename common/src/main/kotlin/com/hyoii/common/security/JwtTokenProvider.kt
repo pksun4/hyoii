@@ -1,5 +1,6 @@
 package com.hyoii.common.security
 
+import com.hyoii.utils.logger
 import io.jsonwebtoken.*
 import io.jsonwebtoken.io.Decoders
 import io.jsonwebtoken.security.Keys
@@ -91,7 +92,7 @@ class JwtTokenProvider {
                 is IllegalArgumentException -> {}
                 else -> {}
             }
-            println(it.message)
+            logger().error(it.message)
         }
         return false
     }

@@ -21,6 +21,9 @@ enum class MessageEnums(val code: String, val message: String) {
     REFRESH_TOKEN_ISSUE_FAIL("6002", "토큰 재발급 중 오류가 발생했습니다."),
     REFRESH_TOKEN_INVALID("6002", "유효하지 않은 리프레시 토큰입니다."),
 
-    // 7000번대 API 통신
-    WEB_CLIENT_ERROR("7000", "API 통신 중 오류가 발생했습니다.")
+    // 7000번대 서비스 관련
+    PRODUCT_EMPTY("7000", "존재하지 않는 상품입니다."),
+
+    // 9000번대 API 통신
+    WEB_CLIENT_ERROR("9000번대", "API 통신 중 오류가 발생했습니다.")
 }

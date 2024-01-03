@@ -6,6 +6,7 @@ import com.hyoii.enums.MessageEnums
 import com.hyoii.utils.logger
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import kotlin.jvm.optionals.getOrNull
 
 @Service
 class ProductService(
@@ -14,7 +15,21 @@ class ProductService(
     @Transactional
     fun saveProduct(productRequest: ProductRequest) =
         runCatching {
-            productRepository.save(Product.from(productRequest)).right()
+            val product = Product.from(productRequest).apply {
+                this.optionList = ProductOption.from(productRequest, this)
+            }
+            productRepository.save(product).right()
+        }.getOrElse {
+            it.errorLogging(this.javaClass)
+            it.throwUnknownError()
+        }
+
+    @Transactional
+    fun removeProduct(id: Long) =
+        runCatching {
+            productRepository.findById(id).getOrNull()?.let {
+                productRepository.deleteById(id).right()
+            } ?: ProductError.ProductEmpty.left()
         }.getOrElse {
             it.errorLogging(this.javaClass)
             it.throwUnknownError()
@@ -27,5 +42,6 @@ class ProductService(
 sealed class ProductError(
     val messageEnums: MessageEnums
 ) {
+    data object ProductEmpty: ProductError(MessageEnums.PRODUCT_EMPTY)
     data class Unknown(val className: String) : ProductError(MessageEnums.ERROR)
 }
