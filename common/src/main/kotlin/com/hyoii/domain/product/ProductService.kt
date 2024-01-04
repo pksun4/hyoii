@@ -2,23 +2,47 @@ package com.hyoii.domain.product
 
 import arrow.core.left
 import arrow.core.right
+import com.hyoii.domain.brand.BrandRepository
 import com.hyoii.enums.MessageEnums
 import com.hyoii.utils.logger
+import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import kotlin.jvm.optionals.getOrNull
 
 @Service
 class ProductService(
-    private val productRepository: ProductRepository
+    private val productRepository: ProductRepository,
+    private val productCategoryRepository: ProductCategoryRepository,
+    private val brandRepository: BrandRepository
 ) {
     @Transactional
     fun saveProduct(productRequest: ProductRequest) =
         runCatching {
             val product = Product.from(productRequest).apply {
                 this.optionList = ProductOption.from(productRequest, this)
+                this.brand = brandRepository.findById(productRequest.brandId!!).getOrNull()
+                this.productCategory = productCategoryRepository.findById(productRequest.categoryId!!).getOrNull()
             }
             productRepository.save(product).right()
+        }.getOrElse {
+            it.errorLogging(this.javaClass)
+            it.throwUnknownError()
+        }
+
+    @Transactional(readOnly = true)
+    fun getProductList() =
+        runCatching {
+            productRepository.findAll(Sort.by(Sort.Direction.DESC, "id")).right()
+        }.getOrElse {
+            it.errorLogging(this.javaClass)
+            it.throwUnknownError()
+        }
+
+    @Transactional(readOnly = true)
+    fun getProduct(id: Long) =
+        runCatching {
+            productRepository.findById(id).getOrNull()?.right() ?: ProductError.ProductEmpty.left()
         }.getOrElse {
             it.errorLogging(this.javaClass)
             it.throwUnknownError()

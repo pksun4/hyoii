@@ -19,12 +19,12 @@ class MemberService(
     fun signUp(signUpRequest: SignUpRequest) =
         runCatching {
             memberRepository.findByEmail(signUpRequest.email)?.let {
-                memberRepository.save(
-                    Member.from(signUpRequest).apply {
-                        this.memberRole = mutableListOf(MemberRole.fromForMember(it))
-                    }
-                ).right()
-            } ?: MemberError.MemberExist.left()
+                MemberError.MemberExist.left()
+            } ?: memberRepository.save(
+                Member.from(signUpRequest).apply {
+                    this.memberRole = mutableListOf(MemberRole.fromForMember(this))
+                }
+            ).right()
         }.getOrElse {
             it.errorLogging(this.javaClass)
             it.throwUnknownError()

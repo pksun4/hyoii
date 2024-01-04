@@ -1,7 +1,9 @@
 package com.hyoii.mall.product
 
 import arrow.core.right
+import com.hyoii.domain.brand.BrandRepository
 import com.hyoii.domain.product.Product
+import com.hyoii.domain.product.ProductCategoryRepository
 import com.hyoii.domain.product.ProductError
 import com.hyoii.domain.product.ProductOption
 import com.hyoii.domain.product.ProductRepository
@@ -22,10 +24,14 @@ import kotlin.jvm.optionals.getOrNull
 internal class ProductServiceTest {
 
     private val productRepository: ProductRepository = mockk()
-    private val productService: ProductService = ProductService(productRepository)
+    private val productCategoryRepository: ProductCategoryRepository = mockk()
+    private val brandRepository: BrandRepository = mockk()
+    private val productService: ProductService = ProductService(productRepository, productCategoryRepository, brandRepository)
 
     companion object {
         private const val PRODUCT_ID = 1L
+        private const val BRAND_ID = 1L
+        private const val CATEGORY_ID = 1L
         private const val PRODUCT_NAME = "상품명"
         private const val PRODUCT_NUMBER = "PRODUCT1"
         private const val CONTENT = "내용"
@@ -37,12 +43,15 @@ internal class ProductServiceTest {
     @Test
     fun `success save product`() {
         val params = ProductRequest(
+            brandId = BRAND_ID,
+            categoryId = CATEGORY_ID,
             name = PRODUCT_NAME,
             number = PRODUCT_NUMBER,
             content = CONTENT,
             price = PRICE,
             salePrice = SALE_PRICE,
             deliveryType = DELIVERY_TYPE,
+            isExposed = true,
             optionList = null
         )
         val product = createdProduct()
@@ -95,7 +104,8 @@ internal class ProductServiceTest {
         content = CONTENT,
         price = PRICE,
         salePrice = SALE_PRICE,
-        deliveryType = DELIVERY_TYPE
+        deliveryType = DELIVERY_TYPE,
+        isExposed = true
     ).apply {
         this.optionList = mutableListOf(createdProductOption(this))
     }

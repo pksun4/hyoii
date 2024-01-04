@@ -1,6 +1,8 @@
 package com.hyoii.common
 
 import jakarta.persistence.*
+import org.hibernate.annotations.ColumnDefault
+import org.springframework.boot.context.properties.bind.DefaultValue
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
@@ -20,11 +22,15 @@ abstract class BaseEntity : Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
 
+    @Column(nullable = false, columnDefinition = "tinyint(1)")
+    @ColumnDefault("false")
+    var isDeleted: Boolean = false
+
     @CreatedDate
-    @Column(name = "created_dt", nullable = false, updatable = false)
-    var createdDt: LocalDateTime = LocalDateTime.now()
+    @Column(nullable = false, updatable = false, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
+    var createdAt: LocalDateTime = LocalDateTime.now()
 
     @LastModifiedDate
-    @Column(name = "modified_dt", nullable = false)
-    var modifiedDt: LocalDateTime = LocalDateTime.now()
+    @Column(nullable = false, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
+    var updatedAt: LocalDateTime = LocalDateTime.now()
 }

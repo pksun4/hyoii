@@ -6,6 +6,7 @@ import com.hyoii.domain.member.LoginRequest
 import com.hyoii.domain.member.SignUpRequest
 import com.hyoii.mall.common.res.ResponseData
 import com.hyoii.domain.member.MemberService
+import com.hyoii.domain.member.SignUpResponse
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -25,7 +26,7 @@ class AuthController(
     @PostMapping("/signup")
     suspend fun signUp(@RequestBody @Valid signUpRequest: SignUpRequest) = memberService.signUp(signUpRequest).fold(
         { ResponseData.fail(it.messageEnums) },
-        { ResponseData.success(it) }
+        { ResponseData.success(SignUpResponse(it)) }
     )
 
     /**

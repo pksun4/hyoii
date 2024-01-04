@@ -22,7 +22,7 @@ data class Member(
     var gender: GenderEnums
 ) : BaseEntity() {
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "member", targetEntity = MemberRole::class, cascade = [CascadeType.ALL])
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "member", targetEntity = MemberRole::class, cascade = [CascadeType.PERSIST])
     var memberRole: List<MemberRole>? = mutableListOf()
 
     companion object {

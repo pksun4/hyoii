@@ -10,15 +10,8 @@ class BrandRequest(
     @field:NotBlank(message = "브랜드명은 필수값입니다.")
     val brandEn: String,
     val memo: String?,
-    @field:Valid @field:NotNull
-    val brandImage: BrandImageRequest
-)
-
-class BrandImageRequest(
-    @field:NotBlank(message = "브랜드 이미지 형식은 필수값입니다.")
-    val extension: String,
-    @field:NotBlank(message = "브랜드 이미지 경로는 필수값입니다.")
-    val path: String,
+    val imagePath: String?,
+    val imageExtension: String?
 )
 
 class BrandUpdateRequest(
@@ -28,3 +21,21 @@ class BrandUpdateRequest(
     val brandEn: String,
     val memo: String?
 )
+
+class BrandResponse(
+    val brandKo: String,
+    val brandEn: String,
+    val imagePath: String?,
+    val imageExtension: String?
+) {
+    companion object {
+        operator fun invoke(brand: Brand?) = brand?.let {
+            BrandResponse(
+                brandKo = it.brandKo,
+                brandEn = brand.brandEn,
+                imagePath = brand.imagePath,
+                imageExtension = brand.imageExtension
+            )
+        }
+    }
+}

@@ -24,11 +24,7 @@ class BrandService(
     @Transactional
     fun saveBrand(brandRequest: BrandRequest) =
         runCatching {
-            brandRepository.save(
-                Brand.from(brandRequest).apply {
-                    this.brandImage = BrandImage.from(brandRequest.brandImage)
-                }
-            ).right()
+            brandRepository.save(Brand.from(brandRequest)).right()
         }.getOrElse {
             it.errorLogging(this.javaClass)
             it.throwUnknownError()

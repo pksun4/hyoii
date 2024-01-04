@@ -15,11 +15,12 @@ enum class MessageEnums(val code: String, val message: String) {
     MEMBER_EMPTY("5002", "조회된 회원이 없습니다."),
     MEMBER_MODIFY_FAIL("5003", "회원정보 수정 중 오류가 발생했습니다."),
 
-    // 6000번대 인증관련
-    LOGIN_FAIL("6000", "로그인에 실패했습니다."),
-    LOGIN_INCORRECT("6001", "아이디 비밀번호를 확인해주세요."),
-    REFRESH_TOKEN_ISSUE_FAIL("6002", "토큰 재발급 중 오류가 발생했습니다."),
-    REFRESH_TOKEN_INVALID("6002", "유효하지 않은 리프레시 토큰입니다."),
+    // 6000번대 Auth
+    AUTHENTICATION_FAIL("6000", "자격 증명에 실패했습니다."),
+    LOGIN_FAIL("6001", "로그인에 실패했습니다."),
+    LOGIN_INCORRECT("6002", "아이디 비밀번호를 확인해주세요."),
+    REFRESH_TOKEN_ISSUE_FAIL("6003", "토큰 재발급 중 오류가 발생했습니다."),
+    REFRESH_TOKEN_INVALID("6004", "유효하지 않은 리프레시 토큰입니다."),
 
     // 7000번대 서비스 관련
     PRODUCT_EMPTY("7000", "존재하지 않는 상품입니다."),

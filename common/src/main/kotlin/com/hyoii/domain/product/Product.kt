@@ -29,38 +29,49 @@ data class Product(
     @Column(length = 500, nullable = false)
     var content: String,
 
-    @Column
+    @Column(nullable = false)
+    @ColumnDefault("0")
     var price: Int,
 
-    @Column
+    @Column(nullable = false)
+    @ColumnDefault("0")
     var salePrice: Int,
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     var deliveryType: DeliveryType,
-) : BaseEntity() {
 
-    @Column
+    @Column(nullable = false, columnDefinition = "tinyint(1)")
+    @ColumnDefault("false")
+    var isExposed: Boolean
+) : BaseEntity() {
+    @Column(nullable = false)
     @ColumnDefault("0")
     var readCount: Int? = 0
 
     @OneToMany(fetch = FetchType.LAZY, targetEntity = ProductOption::class, mappedBy = "product", cascade = [CascadeType.PERSIST])
     var optionList : List<ProductOption>? = mutableListOf()
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Brand::class)
-    @JoinColumn(foreignKey = ForeignKey(name = "fk_product_1"))
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Brand::class, cascade = [CascadeType.PERSIST])
+    @JoinColumn(name = "brand_id", foreignKey = ForeignKey(name = "fk_product_1"))
     var brand: Brand? = null
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.PERSIST])
+    @JoinColumn(name = "category_id", foreignKey = ForeignKey(name = "fk_product_2"))
+    var productCategory: ProductCategory? = null
 
     companion object {
         @Serial
         private const val serialVersionUID: Long = 1626749272279599298L
 
         fun from(productRequest: ProductRequest) = Product(
-            name = productRequest.name,
-            number = productRequest.number,
-            content = productRequest.content,
-            price =  productRequest.price,
-            salePrice = productRequest.salePrice,
-            deliveryType = productRequest.deliveryType
+            name = productRequest.name!!,
+            number = productRequest.number!!,
+            content = productRequest.content!!,
+            price =  productRequest.price!!,
+            salePrice = productRequest.salePrice!!,
+            deliveryType = productRequest.deliveryType!!,
+            isExposed = productRequest.isExposed!!
         )
     }
 

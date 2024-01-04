@@ -69,7 +69,7 @@ class DataSourceConfig {
     )
 
     companion object {
-        private const val DDL_AUTO = "update"
+        private const val DDL_AUTO = "none"
         private const val SHOW_SQL = true
         private const val FORMAT_SQL = true
         private const val HIGHLIGHT_SQL = true

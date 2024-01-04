@@ -10,7 +10,7 @@ import java.io.Serial
 @Table(name = "product_category")
 data class ProductCategory(
 
-    @Column
+    @Column(length = 50, nullable = false)
     var name: String
 
 ) : BaseEntity() {

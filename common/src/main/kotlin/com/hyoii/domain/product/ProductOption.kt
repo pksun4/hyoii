@@ -17,7 +17,7 @@ data class ProductOption(
     @Column(length = 100, nullable = false)
     var name: String,
 
-    @Column
+    @Column(nullable = false)
     @ColumnDefault("0")
     var stock: Int = 0,
 
@@ -33,8 +33,8 @@ data class ProductOption(
         fun from(productRequest: ProductRequest, product: Product): MutableList<ProductOption>? =
             productRequest.optionList?.map {
                 ProductOption(
-                    name = it.name,
-                    stock = it.stock,
+                    name = it.name!!,
+                    stock = it.stock!!,
                     product = product
                 )
             }?.toMutableList()

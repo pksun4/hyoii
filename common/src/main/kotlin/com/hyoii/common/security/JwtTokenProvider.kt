@@ -17,7 +17,7 @@ import java.util.*
 class JwtTokenProvider {
 
     companion object {
-        const val TOKEN_EXPIRATION_MS: Long = 1000 * 60 * 30        // 30분
+        const val TOKEN_EXPIRATION_MS: Long = 1000 * 60 * 60        // 한시간
         const val REFRESH_EXPIRATION_MS: Long = 1000 * 60 * 60 * 24 // 하루
     }
 

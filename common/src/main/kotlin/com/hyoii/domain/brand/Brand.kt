@@ -1,10 +1,8 @@
 package com.hyoii.domain.brand
 
 import com.hyoii.common.BaseEntity
-import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
-import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
 import java.io.Serial
 
@@ -18,10 +16,14 @@ data class Brand(
     var brandEn: String,
 
     @Column(length = 200)
-    var memo: String?
+    var memo: String?,
+
+    @Column(length = 200, nullable = false)
+    var imagePath: String?,
+
+    @Column(length = 50, nullable = false)
+    var imageExtension: String?
 ) : BaseEntity() {
-    @OneToOne(mappedBy = "brand", targetEntity = BrandImage::class, cascade = [CascadeType.ALL])
-    var brandImage: BrandImage? = null
 
     companion object {
         @Serial
@@ -30,7 +32,9 @@ data class Brand(
         fun from(brandRequest: BrandRequest) = Brand(
             brandKo = brandRequest.brandKo,
             brandEn = brandRequest.brandEn,
-            memo = brandRequest.memo
+            memo = brandRequest.memo,
+            imagePath = brandRequest.imagePath,
+            imageExtension = brandRequest.imageExtension
         )
     }
 }
