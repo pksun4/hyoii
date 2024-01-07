@@ -23,6 +23,7 @@ class ProductRequest(
     val salePrice: Int?,
     @field:NotNull(message = "배송 유형은 필수값 입니다.")
     val deliveryType: Product.DeliveryType?,
+    @field:NotNull(message = "노출 여부는 필수값 입니다.")
     val isExposed: Boolean?,
     @field:Valid
     @field:NotNull

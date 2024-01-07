@@ -1,6 +1,7 @@
 package com.hyoii.mall.api.brand
 
 import com.hyoii.domain.brand.BrandRequest
+import com.hyoii.domain.brand.BrandResponse
 import com.hyoii.domain.brand.BrandService
 import com.hyoii.domain.brand.BrandUpdateRequest
 import com.hyoii.mall.common.res.ResponseData
@@ -20,9 +21,9 @@ class BrandController(
 ) {
 
     @GetMapping("")
-    fun getBrands() = brandService.getBrands().fold(
+    fun getBrandList() = brandService.getBrandList().fold(
         { ResponseData.fail(it.messageEnums) },
-        { ResponseData.success(it) }
+        { ResponseData.success(BrandResponse(it)) }
     )
 
     @PostMapping
@@ -31,7 +32,7 @@ class BrandController(
         brandRequest: BrandRequest
     ) = brandService.saveBrand(brandRequest).fold(
         { ResponseData.fail(it.messageEnums) },
-        { ResponseData.success(it) }
+        { ResponseData.success(BrandResponse(it)) }
     )
 
     @PutMapping("/{brandId}")

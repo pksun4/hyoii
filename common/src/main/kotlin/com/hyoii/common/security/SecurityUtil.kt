@@ -1,6 +1,6 @@
 package com.hyoii.common.security
 
-import org.springframework.security.core.Authentication
+import org.springframework.security.authentication.AnonymousAuthenticationToken
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
@@ -11,16 +11,26 @@ object SecurityUtil {
 
     fun String.passwordEncode(): String = cryptPasswordEncoder().encode(this)
 
-    fun getCurrentUser(): CurrentUser {
-        val authentication: Authentication = SecurityContextHolder.getContext().authentication
-        authentication.let {
-            val principal = authentication.principal as CustomUser
+    fun getCurrentUser(): CurrentUser? {
+        SecurityContextHolder.getContext().authentication?.let {
+            val principal = it.principal as CustomUser
             return CurrentUser(
                 principal.memberId,
                 principal.username,
                 principal.authorities
             )
         }
+        return null
+    }
+
+    fun isAuthenticated(): Boolean {
+        SecurityContextHolder.getContext().authentication?.let {
+            if (it is AnonymousAuthenticationToken) {
+                return false
+            }
+            return it.isAuthenticated
+        }
+        return false
     }
 
 }

@@ -16,7 +16,7 @@ class MemberService(
      * 회원가입
      */
     @Transactional
-    fun signUp(signUpRequest: SignUpRequest) =
+    suspend fun signUp(signUpRequest: SignUpRequest) =
         runCatching {
             memberRepository.findByEmail(signUpRequest.email)?.let {
                 MemberError.MemberExist.left()

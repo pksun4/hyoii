@@ -13,7 +13,7 @@ class BrandService(
 ) {
 
     @Transactional(readOnly = true)
-    fun getBrands() =
+    fun getBrandList() =
         runCatching {
             brandRepository.findAll().right()
         }.getOrElse {
