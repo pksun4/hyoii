@@ -2,6 +2,7 @@ package com.hyoii.domain.product
 
 import au.com.console.kassava.kotlinToString
 import com.hyoii.common.BaseEntity
+import com.hyoii.domain.product.dto.ProductRequest
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.ForeignKey
@@ -14,7 +15,7 @@ import org.hibernate.annotations.ColumnDefault
 
 @Entity
 @Table(name = "product_option")
-data class ProductOption(
+class ProductOption(
 
     @Column(length = 100, nullable = false)
     var name: String,

@@ -2,7 +2,7 @@ package com.hyoii.mall.brand
 
 import com.hyoii.domain.brand.Brand
 import com.hyoii.domain.brand.BrandRepository
-import com.hyoii.domain.brand.BrandRequest
+import com.hyoii.domain.brand.dto.BrandRequest
 import com.hyoii.domain.brand.BrandService
 import com.hyoii.enums.MessageEnums
 import io.mockk.coEvery

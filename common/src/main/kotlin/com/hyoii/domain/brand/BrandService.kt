@@ -2,6 +2,8 @@ package com.hyoii.domain.brand
 
 import arrow.core.left
 import arrow.core.right
+import com.hyoii.domain.brand.dto.BrandRequest
+import com.hyoii.domain.brand.dto.BrandUpdateRequest
 import com.hyoii.enums.MessageEnums
 import com.hyoii.utils.logger
 import org.springframework.stereotype.Service

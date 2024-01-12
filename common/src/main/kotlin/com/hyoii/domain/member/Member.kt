@@ -3,6 +3,7 @@ package com.hyoii.domain.member
 import au.com.console.kassava.kotlinToString
 import com.hyoii.common.BaseEntity
 import com.hyoii.common.security.SecurityUtil.passwordEncode
+import com.hyoii.domain.member.dto.SignUpRequest
 import com.hyoii.enums.GenderEnums
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column

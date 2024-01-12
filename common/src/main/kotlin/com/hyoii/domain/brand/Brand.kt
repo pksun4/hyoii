@@ -2,14 +2,13 @@ package com.hyoii.domain.brand
 
 import au.com.console.kassava.kotlinToString
 import com.hyoii.common.BaseEntity
+import com.hyoii.domain.brand.dto.BrandRequest
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
-import jakarta.persistence.Table
 import java.io.Serial
 import java.util.*
 
 @Entity
-@Table(name = "brand")
 class Brand(
     @Column(name = "brand_ko", length = 100, nullable = false)
     var brandKo: String,

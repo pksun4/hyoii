@@ -1,9 +1,9 @@
 package com.hyoii.mall.api.product
 
-import com.hyoii.domain.product.ProductCategoryRequest
-import com.hyoii.domain.product.ProductCategoryResponse
-import com.hyoii.domain.product.ProductRequest
-import com.hyoii.domain.product.ProductResponse
+import com.hyoii.domain.product.dto.ProductCategoryRequest
+import com.hyoii.domain.product.dto.ProductCategoryResponse
+import com.hyoii.domain.product.dto.ProductRequest
+import com.hyoii.domain.product.dto.ProductResponse
 import com.hyoii.domain.product.ProductService
 import com.hyoii.mall.common.res.ResponseData
 import jakarta.validation.Valid

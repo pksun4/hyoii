@@ -3,6 +3,7 @@ package com.hyoii.domain.product
 import au.com.console.kassava.kotlinToString
 import com.hyoii.common.BaseEntity
 import com.hyoii.domain.brand.Brand
+import com.hyoii.domain.product.dto.ProductRequest
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -20,7 +21,7 @@ import org.hibernate.annotations.ColumnDefault
 
 @Entity
 @Table(name = "product")
-data class Product(
+class Product(
 
     @Column(length = 200, nullable = false)
     var name: String,

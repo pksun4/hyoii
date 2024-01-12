@@ -1,7 +1,7 @@
 package com.hyoii.mall.api.test
 
 import arrow.core.right
-import com.hyoii.domain.member.SignUpRequest
+import com.hyoii.domain.member.dto.SignUpRequest
 import com.hyoii.mall.common.client.HostUri
 import com.hyoii.mall.common.client.WebClientHeader
 import com.hyoii.mall.common.client.WebClientService

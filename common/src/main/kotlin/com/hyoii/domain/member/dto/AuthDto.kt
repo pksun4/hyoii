@@ -1,6 +1,7 @@
-package com.hyoii.domain.member
+package com.hyoii.domain.member.dto
 
 import com.hyoii.annotation.ValidEnum
+import com.hyoii.domain.member.Member
 import com.hyoii.enums.GenderEnums
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank

@@ -1,16 +1,12 @@
 package com.hyoii.mall.product
 
-import arrow.core.right
 import com.hyoii.domain.brand.BrandRepository
 import com.hyoii.domain.product.Product
 import com.hyoii.domain.product.ProductCategoryRepository
 import com.hyoii.domain.product.ProductError
 import com.hyoii.domain.product.ProductOption
 import com.hyoii.domain.product.ProductRepository
-import com.hyoii.domain.product.ProductRequest
 import com.hyoii.domain.product.ProductService
-import com.hyoii.enums.MessageEnums
-import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.just

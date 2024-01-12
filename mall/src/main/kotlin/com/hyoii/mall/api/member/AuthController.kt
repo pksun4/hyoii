@@ -1,12 +1,12 @@
 package com.hyoii.mall.api.member
 
 import com.hyoii.domain.member.AuthService
-import com.hyoii.domain.member.AuthTokenRequest
-import com.hyoii.domain.member.LoginRequest
-import com.hyoii.domain.member.SignUpRequest
+import com.hyoii.domain.member.dto.AuthTokenRequest
+import com.hyoii.domain.member.dto.LoginRequest
+import com.hyoii.domain.member.dto.SignUpRequest
 import com.hyoii.mall.common.res.ResponseData
 import com.hyoii.domain.member.MemberService
-import com.hyoii.domain.member.SignUpResponse
+import com.hyoii.domain.member.dto.SignUpResponse
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody

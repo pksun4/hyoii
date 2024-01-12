@@ -10,7 +10,7 @@ import java.util.*
 
 @Entity
 @Table(name = "product_category")
-data class ProductCategory(
+class ProductCategory(
 
     @Column(length = 50, nullable = false)
     var name: String

@@ -1,4 +1,4 @@
-package com.hyoii.domain.order
+package com.hyoii.domain.order.dto
 
 class OrderRequest(
     val paymentAmount: Int,

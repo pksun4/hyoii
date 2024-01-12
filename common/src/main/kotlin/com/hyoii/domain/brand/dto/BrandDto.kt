@@ -1,5 +1,6 @@
-package com.hyoii.domain.brand
+package com.hyoii.domain.brand.dto
 
+import com.hyoii.domain.brand.Brand
 import jakarta.validation.constraints.NotBlank
 
 class BrandRequest(

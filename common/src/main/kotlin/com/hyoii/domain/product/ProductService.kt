@@ -3,6 +3,8 @@ package com.hyoii.domain.product
 import arrow.core.left
 import arrow.core.right
 import com.hyoii.domain.brand.BrandRepository
+import com.hyoii.domain.product.dto.ProductCategoryRequest
+import com.hyoii.domain.product.dto.ProductRequest
 import com.hyoii.enums.MessageEnums
 import com.hyoii.utils.logger
 import org.springframework.data.domain.Sort

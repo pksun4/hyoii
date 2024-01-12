@@ -1,9 +1,9 @@
 package com.hyoii.mall.api.brand
 
-import com.hyoii.domain.brand.BrandRequest
-import com.hyoii.domain.brand.BrandResponse
+import com.hyoii.domain.brand.dto.BrandRequest
+import com.hyoii.domain.brand.dto.BrandResponse
 import com.hyoii.domain.brand.BrandService
-import com.hyoii.domain.brand.BrandUpdateRequest
+import com.hyoii.domain.brand.dto.BrandUpdateRequest
 import com.hyoii.mall.common.res.ResponseData
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.GetMapping

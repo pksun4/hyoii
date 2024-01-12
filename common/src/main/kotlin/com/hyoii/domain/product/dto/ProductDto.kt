@@ -1,6 +1,8 @@
-package com.hyoii.domain.product
+package com.hyoii.domain.product.dto
 
-import com.hyoii.domain.brand.BrandResponse
+import com.hyoii.domain.brand.dto.BrandResponse
+import com.hyoii.domain.product.Product
+import com.hyoii.domain.product.ProductCategory
 import jakarta.validation.Valid
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull

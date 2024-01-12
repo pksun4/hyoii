@@ -2,6 +2,7 @@ package com.hyoii.domain.member
 
 import arrow.core.left
 import arrow.core.right
+import com.hyoii.domain.member.dto.SignUpRequest
 import com.hyoii.enums.MessageEnums
 import com.hyoii.utils.logger
 import jakarta.transaction.Transactional
