@@ -9,6 +9,6 @@ import java.util.*
 @Configuration
 class JpaAuditConfig {
     @Bean
-    fun auditorAware(): AuditorAware<Long> = AuditorAware { Optional.of(SecurityUtil.getCurrentUser()!!.memberIdx) }
+    fun auditorAware(): AuditorAware<Long> = AuditorAware { Optional.of(SecurityUtil.getCurrentUser()?.memberKey ?: 1L) }
 
 }

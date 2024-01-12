@@ -8,9 +8,9 @@ import java.time.LocalDateTime
 
 class ProductRequest(
     @field:NotNull(message = "브랜드 아이디는 필수값입니다.")
-    val brandId: Long?,
+    val brandKey: Long?,
     @field:NotNull(message = "카테고리 아이디는 필수값입니다.")
-    val categoryId: Long?,
+    val categoryKey: Long?,
     @field:NotBlank(message = "상품명은 필수값 입니다.")
     val name: String?,
     @field:NotBlank(message = "상품번호는 필수값 입니다.")
@@ -43,7 +43,6 @@ class ProductResponse(
     val number: String,
     val content: String,
     val price: Int,
-    val salePrice: Int,
     val deliveryType: String,
     val createdDt: LocalDateTime,
     val brand: BrandResponse?
@@ -55,7 +54,6 @@ class ProductResponse(
             number = product.number,
             content = product.content,
             price = product.price,
-            salePrice = product.salePrice,
             deliveryType = product.deliveryType.value,
             brand = BrandResponse(product.brand),
             createdDt = product.createdAt
@@ -68,11 +66,27 @@ class ProductResponse(
                 number = product.number,
                 content = product.content,
                 price = product.price,
-                salePrice = product.salePrice,
                 deliveryType = product.deliveryType.value,
                 createdDt = product.createdAt,
                 brand = BrandResponse(product.brand)
             )
         }
+    }
+}
+
+class ProductCategoryRequest(
+    @field:NotBlank(message = "상품 카테고리명은 필수값 입니다.")
+    val categoryName: String
+)
+
+class ProductCategoryResponse(
+    id: Long,
+    name: String
+) {
+    companion object {
+        operator fun invoke(productCategory: ProductCategory) = ProductCategoryResponse(
+            id = productCategory.id!!,
+            name = productCategory.name
+        )
     }
 }

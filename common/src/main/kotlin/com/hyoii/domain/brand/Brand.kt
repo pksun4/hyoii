@@ -1,14 +1,16 @@
 package com.hyoii.domain.brand
 
+import au.com.console.kassava.kotlinToString
 import com.hyoii.common.BaseEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Table
 import java.io.Serial
+import java.util.*
 
 @Entity
 @Table(name = "brand")
-data class Brand(
+class Brand(
     @Column(name = "brand_ko", length = 100, nullable = false)
     var brandKo: String,
 
@@ -29,6 +31,14 @@ data class Brand(
         @Serial
         private const val serialVersionUID: Long = -1856400393347765651L
 
+        private val properties = arrayOf(
+            Brand::brandKo,
+            Brand::brandEn,
+            Brand::memo,
+            Brand::imagePath,
+            Brand::imageExtension
+        )
+
         fun from(brandRequest: BrandRequest) = Brand(
             brandKo = brandRequest.brandKo,
             brandEn = brandRequest.brandEn,
@@ -36,5 +46,18 @@ data class Brand(
             imagePath = brandRequest.imagePath,
             imageExtension = brandRequest.imageExtension
         )
+
     }
+
+    override fun equals(other: Any?): Boolean {
+        return when {
+            this === other -> true
+            (other == null || other !is Brand || id != other.id) -> false
+            else -> true
+        }
+    }
+
+    override fun hashCode(): Int = Objects.hash(id)
+
+    override fun toString(): String = kotlinToString(properties)
 }

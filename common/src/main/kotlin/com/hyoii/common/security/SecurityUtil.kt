@@ -13,9 +13,13 @@ object SecurityUtil {
 
     fun getCurrentUser(): CurrentUser? {
         SecurityContextHolder.getContext().authentication?.let {
+            if (it is AnonymousAuthenticationToken) {
+                return null
+            }
+
             val principal = it.principal as CustomUser
             return CurrentUser(
-                principal.memberId,
+                principal.memberKey,
                 principal.username,
                 principal.authorities
             )
@@ -36,7 +40,7 @@ object SecurityUtil {
 }
 
 data class CurrentUser(
-    val memberIdx: Long,
+    val memberKey: Long,
     val email: String,
     val role: Collection<GrantedAuthority>
 )

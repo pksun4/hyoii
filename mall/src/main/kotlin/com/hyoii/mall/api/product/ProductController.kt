@@ -1,5 +1,7 @@
 package com.hyoii.mall.api.product
 
+import com.hyoii.domain.product.ProductCategoryRequest
+import com.hyoii.domain.product.ProductCategoryResponse
 import com.hyoii.domain.product.ProductRequest
 import com.hyoii.domain.product.ProductResponse
 import com.hyoii.domain.product.ProductService
@@ -18,14 +20,20 @@ class ProductController(
     private val productService: ProductService
 ) {
 
+    @PostMapping("/category")
+    fun saveProductCategory(
+        @RequestBody @Valid productCategoryRequest: ProductCategoryRequest
+    ) = productService.saveProductCategory(productCategoryRequest).fold(
+        { ResponseData.fail(it.messageEnums) },
+        { ResponseData.success(ProductCategoryResponse(it)) }
+    )
+
     /**
      * 상품 등록
      */
     @PostMapping
     fun saveProduct(
-        @RequestBody
-        @Valid
-        productRequest: ProductRequest
+        @RequestBody @Valid productRequest: ProductRequest
     ) = productService.saveProduct(productRequest).fold(
         { ResponseData.fail(it.messageEnums) },
         { ResponseData.success(ProductResponse(it)) }

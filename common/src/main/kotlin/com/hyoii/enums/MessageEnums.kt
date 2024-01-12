@@ -24,6 +24,7 @@ enum class MessageEnums(val code: String, val message: String) {
 
     // 7000번대 서비스 관련
     PRODUCT_EMPTY("7000", "존재하지 않는 상품입니다."),
+    ORDER_OPTION_EMPTY("7100", "선택된 옵션이 없습니다."),
 
     // 9000번대 API 통신
     WEB_CLIENT_ERROR("9000번대", "API 통신 중 오류가 발생했습니다.")

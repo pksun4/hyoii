@@ -17,8 +17,8 @@ import java.util.*
 class JwtTokenProvider {
 
     companion object {
-        const val TOKEN_EXPIRATION_MS: Long = 1000 * 60 * 60        // 한시간
-        const val REFRESH_EXPIRATION_MS: Long = 1000 * 60 * 60 * 24 // 하루
+        const val TOKEN_EXPIRATION_MS: Long = 1000 * 60 * 60 * 24        // 한시간
+        const val REFRESH_EXPIRATION_MS: Long = 1000 * 60 * 60 * 24 * 7  // 일주일
     }
 
     @Value("\${jwt.secret}")
@@ -40,7 +40,7 @@ class JwtTokenProvider {
             .builder()
             .setSubject(authentication.name)
             .claim("auth", authorities)
-            .claim("memberId", (authentication.principal as CustomUser).memberId)
+            .claim("memberKey", (authentication.principal as CustomUser).memberKey)
             .setIssuedAt(now) // 발행시간
             .setExpiration(accessExpiration)
             .signWith(key, SignatureAlgorithm.HS256)
@@ -65,14 +65,14 @@ class JwtTokenProvider {
         val claims: Claims = getClaims(token)
 
         val auth = claims["auth"] ?: throw RuntimeException("잘못된 토큰입니다.")
-        val memberId = claims["memberId"] ?: throw RuntimeException("잘못된 토큰입니다.")
+        val memberKey = claims["memberKey"] ?: throw RuntimeException("잘못된 토큰입니다.")
 
         // 권한정보 추출
         val authorities: Collection<GrantedAuthority> = (auth as String) // 여긴 현재 아직 타입 몰라서 캐스팅 필요
             .split(",")
             .map { SimpleGrantedAuthority(it) }
 
-        val principal: UserDetails = CustomUser(memberId.toString().toLong(), claims.subject, "", authorities)
+        val principal: UserDetails = CustomUser(memberKey.toString().toLong(), claims.subject, "", authorities)
         return UsernamePasswordAuthenticationToken(principal, "", authorities)
     }
 

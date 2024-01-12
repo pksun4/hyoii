@@ -1,12 +1,20 @@
 package com.hyoii.domain.member
 
+import au.com.console.kassava.kotlinToString
 import com.hyoii.common.BaseEntity
-import jakarta.persistence.*
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.FetchType
+import jakarta.persistence.ForeignKey
+import jakarta.persistence.JoinColumn
+import jakarta.persistence.ManyToOne
+import jakarta.persistence.Table
 import java.io.Serial
+import java.util.*
 
 @Entity
 @Table(name = "member_token")
-data class MemberToken(
+class MemberToken(
     @Column(name = "access_token", length = 300, nullable = false)
     var accessToken: String,
 
@@ -14,11 +22,28 @@ data class MemberToken(
     var refreshToken: String,
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(foreignKey = ForeignKey(name = "fk_member_token_1"))
+    @JoinColumn(name = "member_key", foreignKey = ForeignKey(name = "fk_member_token_1"))
     var member: Member
 ) : BaseEntity() {
     companion object {
         @Serial
         private const val serialVersionUID: Long = -7442137576893370716L
+
+        private val properties = arrayOf(
+            MemberToken::accessToken,
+            MemberToken::refreshToken
+        )
     }
+
+    override fun equals(other: Any?): Boolean {
+        return when {
+            this === other -> true
+            (other == null || other !is MemberToken || id != other.id) -> false
+            else -> true
+        }
+    }
+
+    override fun hashCode(): Int = Objects.hash(id)
+
+    override fun toString(): String = kotlinToString(properties)
 }

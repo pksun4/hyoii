@@ -10,9 +10,9 @@ import org.springframework.stereotype.Repository
 class MemberTokenRepositorySupport(
     val jpaQueryFactory: JPAQueryFactory
 ): QuerydslRepositorySupport(MemberToken::class.java) {
-    fun findRecentTokenByMemberId(memberId: Long): MemberToken? = jpaQueryFactory
+    fun findRecentTokenByMemberKey(memberKey: Long): MemberToken? = jpaQueryFactory
         .selectFrom(memberToken)
-        .where(memberToken.member.id.eq(memberId))
+        .where(memberToken.member.id.eq(memberKey))
         .orderBy(memberToken.id.desc())
         .fetchFirst()
 }

@@ -17,12 +17,23 @@ class ProductService(
     private val brandRepository: BrandRepository
 ) {
     @Transactional
+    fun saveProductCategory(productCategoryRequest: ProductCategoryRequest) =
+        runCatching {
+            productCategoryRepository.save(
+                ProductCategory(name = productCategoryRequest.categoryName)
+            ).right()
+        }.getOrElse {
+            it.errorLogging(this.javaClass)
+            it.throwUnknownError()
+        }
+
+    @Transactional
     fun saveProduct(productRequest: ProductRequest) =
         runCatching {
             val product = Product.from(productRequest).apply {
                 this.optionList = ProductOption.from(productRequest, this)
-                this.brand = brandRepository.findById(productRequest.brandId!!).getOrNull()
-                this.productCategory = productCategoryRepository.findById(productRequest.categoryId!!).getOrNull()
+                this.brand = brandRepository.findById(productRequest.brandKey!!).getOrNull()
+                this.productCategory = productCategoryRepository.findById(productRequest.categoryKey!!).getOrNull()
             }
             productRepository.save(product).right()
         }.getOrElse {

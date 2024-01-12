@@ -1,7 +1,6 @@
 package com.hyoii.mall.brand
 
 import com.hyoii.domain.brand.Brand
-import com.hyoii.domain.brand.BrandImageRequest
 import com.hyoii.domain.brand.BrandRepository
 import com.hyoii.domain.brand.BrandRequest
 import com.hyoii.domain.brand.BrandService
@@ -29,7 +28,8 @@ internal class BrandServiceTest {
             brandKo = BRAND_KO,
             brandEn = BRAND_EN,
             memo = "MEMO",
-            brandImage = BrandImageRequest("png", "link")
+            imagePath = null,
+            imageExtension = null
         )
         val brand = createdBrand()
 
@@ -49,6 +49,8 @@ internal class BrandServiceTest {
     private fun createdBrand() = Brand(
         brandKo = BRAND_KO,
         brandEn = BRAND_EN,
-        memo = null
+        memo = null,
+        imagePath = null,
+        imageExtension = null
     )
 }

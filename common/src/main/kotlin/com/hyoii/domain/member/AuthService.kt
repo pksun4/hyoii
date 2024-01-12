@@ -60,7 +60,7 @@ class AuthService(
                 AuthError.RefreshTokenInvalid.left()
             }
             val authentication: Authentication =  jwtTokenProvider.parseToken(authTokenRequest.accessToken)
-            val memberToken = memberTokenRepositorySupport.findRecentTokenByMemberId((authentication.principal as CustomUser).memberId)
+            val memberToken = memberTokenRepositorySupport.findRecentTokenByMemberKey((authentication.principal as CustomUser).memberKey)
             memberToken?.let {
                 if (memberToken.refreshToken != authTokenRequest.refreshToken) {
                     AuthError.RefreshTokenIssueFail.left()
