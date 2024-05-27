@@ -2,10 +2,12 @@ package com.hyoii.domain.order
 
 import au.com.console.kassava.kotlinToString
 import com.hyoii.common.BaseEntity
+import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
+import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
 import org.hibernate.annotations.ColumnDefault
 import java.io.Serial
@@ -32,18 +34,21 @@ class Order(
 
     @Column(nullable = false)
     @ColumnDefault("0")
-    var usedPoint: Int,
+    var usedPoint: Int?,
 
     @Column(nullable = false)
     @ColumnDefault("0")
     var usedCouponAmount: Int,
 
     @Column(nullable = true)
-    var couponKey: Long,
+    var couponKey: Long?,
 
     @Column(nullable = true)
     var memberKey: Long
 ) : BaseEntity() {
+    @OneToMany(mappedBy = "order", cascade = [CascadeType.ALL])
+    var orderOptionList: List<OrderOption>? = mutableListOf()
+
     companion object {
         @Serial
         private const val serialVersionUID: Long = -3377967933007872763L
