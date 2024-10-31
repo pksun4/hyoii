@@ -171,7 +171,7 @@ project("common") {
     }
 
     dependencies {
-        implementation("au.com.console:kassava:2.1.0")
+//        implementation("au.com.console:kassava:2.1.0")
         testImplementation("org.mockito:mockito-inline:5.2.0")
 
         compileOnly("org.springframework.boot:spring-boot-starter-web:$springBootVersion") {

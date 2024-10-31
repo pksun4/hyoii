@@ -1,6 +1,5 @@
 package com.hyoii.domain.order
 
-import au.com.console.kassava.kotlinToString
 import com.hyoii.common.BaseEntity
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
@@ -46,7 +45,8 @@ class Order(
     @Column(nullable = true)
     var memberKey: Long
 ) : BaseEntity() {
-    @OneToMany(mappedBy = "order", cascade = [CascadeType.ALL])
+
+    @OneToMany(mappedBy = "order", cascade = [CascadeType.ALL], targetEntity = OrderOption::class)
     var orderOptionList: List<OrderOption>? = mutableListOf()
 
     companion object {
@@ -84,5 +84,5 @@ class Order(
     override fun hashCode(): Int = Objects.hash(id, memberKey)
 
     @Override
-    override fun toString(): String = kotlinToString(properties)
+    override fun toString(): String = Objects.toString(properties)
 }

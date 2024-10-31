@@ -1,6 +1,5 @@
 package com.hyoii.domain.member
 
-import au.com.console.kassava.kotlinToString
 import com.hyoii.common.BaseEntity
 import com.hyoii.common.security.SecurityUtil.passwordEncode
 import com.hyoii.domain.member.dto.SignUpRequest
@@ -69,5 +68,5 @@ class Member(
     override fun hashCode(): Int = Objects.hash(id)
 
     @Override
-    override fun toString(): String = kotlinToString(properties)
+    override fun toString(): String = Objects.toString(properties)
 }

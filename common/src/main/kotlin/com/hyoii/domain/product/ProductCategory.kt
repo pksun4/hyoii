@@ -1,6 +1,5 @@
 package com.hyoii.domain.product
 
-import au.com.console.kassava.kotlinToString
 import com.hyoii.common.BaseEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -35,6 +34,6 @@ class ProductCategory(
 
     override fun hashCode(): Int = Objects.hash(id)
 
-    override fun toString(): String = kotlinToString(properties)
+    override fun toString(): String = Objects.toString(properties)
 
 }

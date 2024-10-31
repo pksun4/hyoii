@@ -1,6 +1,5 @@
 package com.hyoii.domain.product
 
-import au.com.console.kassava.kotlinToString
 import com.hyoii.common.BaseEntity
 import com.hyoii.domain.brand.Brand
 import com.hyoii.domain.product.dto.ProductRequest
@@ -92,7 +91,7 @@ class Product(
 
     override fun hashCode(): Int = Objects.hash(id)
 
-    override fun toString(): String = kotlinToString(properties)
+    override fun toString(): String = Objects.toString(properties)
 
     enum class DeliveryType(
         val value: String

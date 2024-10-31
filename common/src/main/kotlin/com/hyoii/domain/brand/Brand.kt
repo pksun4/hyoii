@@ -1,6 +1,5 @@
 package com.hyoii.domain.brand
 
-import au.com.console.kassava.kotlinToString
 import com.hyoii.common.BaseEntity
 import com.hyoii.domain.brand.dto.BrandRequest
 import jakarta.persistence.Column
@@ -58,5 +57,5 @@ class Brand(
 
     override fun hashCode(): Int = Objects.hash(id)
 
-    override fun toString(): String = kotlinToString(properties)
+    override fun toString(): String = Objects.toString(properties)
 }

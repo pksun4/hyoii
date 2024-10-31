@@ -1,6 +1,5 @@
 package com.hyoii.domain.member
 
-import au.com.console.kassava.kotlinToString
 import com.hyoii.common.BaseEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -40,5 +39,5 @@ class MemberPoint(
 
     override fun hashCode(): Int = Objects.hash(id)
 
-    override fun toString(): String = kotlinToString(properties)
+    override fun toString(): String = Objects.toString(properties)
 }
