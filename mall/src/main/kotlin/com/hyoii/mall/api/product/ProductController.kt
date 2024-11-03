@@ -6,6 +6,7 @@ import com.hyoii.domain.product.dto.ProductRequest
 import com.hyoii.domain.product.dto.ProductResponse
 import com.hyoii.domain.product.ProductService
 import com.hyoii.mall.common.res.ResponseData
+import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/v1/products")
+@Tag(name = "상품 관리")
 class ProductController(
     private val productService: ProductService
 ) {

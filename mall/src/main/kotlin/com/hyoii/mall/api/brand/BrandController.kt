@@ -5,6 +5,7 @@ import com.hyoii.domain.brand.dto.BrandResponse
 import com.hyoii.domain.brand.BrandService
 import com.hyoii.domain.brand.dto.BrandUpdateRequest
 import com.hyoii.mall.common.res.ResponseData
+import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/v1/brands")
+@Tag(name = "브랜드 관리")
 class BrandController(
     private val brandService: BrandService
 ) {

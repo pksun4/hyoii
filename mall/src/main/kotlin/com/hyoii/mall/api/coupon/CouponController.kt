@@ -4,6 +4,7 @@ import com.hyoii.domain.coupon.CouponService
 import com.hyoii.domain.coupon.dto.CouponRequest
 import com.hyoii.domain.coupon.dto.CouponResponse
 import com.hyoii.mall.common.res.ResponseData
+import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/v1/coupons")
+@Tag(name = "쿠폰 관리")
 class CouponController(
     private val couponService: CouponService
 ) {

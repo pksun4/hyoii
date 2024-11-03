@@ -7,6 +7,7 @@ import com.hyoii.domain.member.dto.SignUpRequest
 import com.hyoii.mall.common.res.ResponseData
 import com.hyoii.domain.member.MemberService
 import com.hyoii.domain.member.dto.SignUpResponse
+import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/v1/auth")
+@Tag(name = "인증 관리")
 class AuthController(
     private val authService: AuthService,
     private val memberService: MemberService

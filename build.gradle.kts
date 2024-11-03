@@ -206,6 +206,9 @@ project(":mall") {
 
     dependencies {
         implementation(project(":common"))
+        // springdoc
+        implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
+        implementation("org.springdoc:springdoc-openapi-starter-webmvc-api:2.2.0")
         // kotlin jpa specification (JPA & QueryDSL )
         implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion")
         implementation("org.springframework.boot:spring-boot-starter-jdbc:$springBootVersion")
