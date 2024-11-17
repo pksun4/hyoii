@@ -49,22 +49,6 @@ class Order(
     @OneToMany(mappedBy = "order", cascade = [CascadeType.ALL], targetEntity = OrderOption::class)
     var orderOptionList: List<OrderOption>? = mutableListOf()
 
-    companion object {
-        @Serial
-        private const val serialVersionUID: Long = -3377967933007872763L
-
-        private val properties = arrayOf(
-            Order::status,
-            Order::totalProductAmount,
-            Order::deliveryFee,
-            Order::paymentAmount,
-            Order::usedPoint,
-            Order::usedCouponAmount,
-            Order::couponKey,
-            Order::memberKey
-        )
-    }
-
     enum class OrderStatus {
         OPEN,
         CANCEL,
@@ -84,5 +68,21 @@ class Order(
     override fun hashCode(): Int = Objects.hash(id, memberKey)
 
     @Override
-    override fun toString(): String = Objects.toString(properties)
+    override fun toString(): String = Objects.toString(
+        arrayOf(
+            Order::status,
+            Order::totalProductAmount,
+            Order::deliveryFee,
+            Order::paymentAmount,
+            Order::usedPoint,
+            Order::usedCouponAmount,
+            Order::couponKey,
+            Order::memberKey
+        )
+    )
+
+    companion object {
+        @Serial
+        private const val serialVersionUID: Long = -3377967933007872763L
+    }
 }

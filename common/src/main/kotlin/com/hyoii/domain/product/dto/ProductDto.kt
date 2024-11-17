@@ -3,6 +3,7 @@ package com.hyoii.domain.product.dto
 import com.hyoii.domain.brand.dto.BrandResponse
 import com.hyoii.domain.product.Product
 import com.hyoii.domain.product.ProductCategory
+import com.hyoii.domain.product.ProductOption
 import jakarta.validation.Valid
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
@@ -30,14 +31,30 @@ class ProductRequest(
     @field:Valid
     @field:NotNull
     val optionList: List<ProductOptionRequest>?
-)
+) {
+    fun toEntity() = Product(
+        name = name!!,
+        number = number!!,
+        content = content!!,
+        price =  price!!,
+        deliveryType = deliveryType!!,
+        isExposed = isExposed!!
+    )
+}
 
 class ProductOptionRequest(
     @field:NotBlank(message = "상품 옵션명은 필수값 입니다.")
     val name: String?,
     @field:NotNull(message = "상품 옵션 재고는 필수값 입니다.")
     val stock: Int?
-)
+) {
+    fun toEntity(product: Product) = ProductOption(
+        name = name!!,
+        stock = stock!!
+    ).apply {
+        this.product = product
+    }
+}
 
 class ProductResponse(
     val id: Long,

@@ -24,15 +24,6 @@ class MemberToken(
     @JoinColumn(name = "member_key", foreignKey = ForeignKey(name = "fk_member_token_1"))
     var member: Member
 ) : BaseEntity() {
-    companion object {
-        @Serial
-        private const val serialVersionUID: Long = -7442137576893370716L
-
-        private val properties = arrayOf(
-            MemberToken::accessToken,
-            MemberToken::refreshToken
-        )
-    }
 
     override fun equals(other: Any?): Boolean {
         return when {
@@ -44,5 +35,15 @@ class MemberToken(
 
     override fun hashCode(): Int = Objects.hash(id)
 
-    override fun toString(): String = Objects.toString(properties)
+    override fun toString(): String = Objects.toString(
+        arrayOf(
+            MemberToken::accessToken,
+            MemberToken::refreshToken
+        )
+    )
+
+    companion object {
+        @Serial
+        private const val serialVersionUID: Long = -7442137576893370716L
+    }
 }

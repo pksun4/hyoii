@@ -15,14 +15,6 @@ class ProductCategory(
     var name: String
 
 ) : BaseEntity() {
-    companion object {
-        @Serial
-        private const val serialVersionUID: Long = 5824988711987350590L
-
-        private val properties = arrayOf(
-            ProductCategory::name
-        )
-    }
 
     override fun equals(other: Any?): Boolean {
         return when {
@@ -34,6 +26,14 @@ class ProductCategory(
 
     override fun hashCode(): Int = Objects.hash(id)
 
-    override fun toString(): String = Objects.toString(properties)
+    override fun toString(): String = Objects.toString(
+        arrayOf(
+            ProductCategory::name
+        )
+    )
 
+    companion object {
+        @Serial
+        private const val serialVersionUID: Long = 5824988711987350590L
+    }
 }

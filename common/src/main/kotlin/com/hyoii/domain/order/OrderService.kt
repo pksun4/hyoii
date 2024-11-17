@@ -76,7 +76,9 @@ class OrderService(
                 couponKey = orderRequest.couponKey,
                 memberKey = memberKey
             ).apply {
-                orderOptionList = OrderOption.from(orderRequest, this)
+                orderOptionList = orderRequest.orderOptionList.map {
+                    it.toEntity()
+                }
             }
             orderRepository.save(order)
 

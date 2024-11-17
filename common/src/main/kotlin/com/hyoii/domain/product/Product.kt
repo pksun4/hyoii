@@ -58,29 +58,6 @@ class Product(
     @JoinColumn(name = "category_key", foreignKey = ForeignKey(name = "fk_product_2"))
     var productCategory: ProductCategory? = null
 
-    companion object {
-        @Serial
-        private const val serialVersionUID: Long = 1626749272279599298L
-
-        private val properties = arrayOf(
-            Product::name,
-            Product::number,
-            Product::content,
-            Product::price,
-            Product::deliveryType,
-            Product::isExposed
-        )
-
-        fun from(productRequest: ProductRequest) = Product(
-            name = productRequest.name!!,
-            number = productRequest.number!!,
-            content = productRequest.content!!,
-            price =  productRequest.price!!,
-            deliveryType = productRequest.deliveryType!!,
-            isExposed = productRequest.isExposed!!
-        )
-    }
-
     override fun equals(other: Any?): Boolean {
         return when {
             this === other -> true
@@ -91,12 +68,26 @@ class Product(
 
     override fun hashCode(): Int = Objects.hash(id)
 
-    override fun toString(): String = Objects.toString(properties)
+    override fun toString(): String = Objects.toString(
+        arrayOf(
+            Product::name,
+            Product::number,
+            Product::content,
+            Product::price,
+            Product::deliveryType,
+            Product::isExposed
+        )
+    )
 
     enum class DeliveryType(
         val value: String
     ) {
         FREE("무료배송"),
         PAID("유료배송")
+    }
+
+    companion object {
+        @Serial
+        private const val serialVersionUID: Long = 1626749272279599298L
     }
 }

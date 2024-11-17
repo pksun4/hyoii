@@ -20,14 +20,6 @@ class MemberPoint(
     @JoinColumn(name = "member_key", foreignKey = ForeignKey(name = "fk_member_point_1"))
     var member: Member
 ) : BaseEntity() {
-    companion object {
-        @Serial
-        private const val serialVersionUID: Long = -5513005179252452172L
-
-        private val properties = arrayOf(
-            MemberPoint::point
-        )
-    }
 
     override fun equals(other: Any?): Boolean {
         return when {
@@ -39,5 +31,14 @@ class MemberPoint(
 
     override fun hashCode(): Int = Objects.hash(id)
 
-    override fun toString(): String = Objects.toString(properties)
+    override fun toString(): String = Objects.toString(
+        arrayOf(
+            MemberPoint::point
+        )
+    )
+
+    companion object {
+        @Serial
+        private const val serialVersionUID: Long = -5513005179252452172L
+    }
 }

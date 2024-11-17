@@ -22,30 +22,11 @@ class ProductOption(
     @Column(nullable = false)
     @ColumnDefault("0")
     var stock: Int = 0,
+) : BaseEntity() {
 
     @ManyToOne
     @JoinColumn(name = "product_key", foreignKey = ForeignKey(name = "fk_product_option_1"))
-    var product: Product?
-) : BaseEntity() {
-
-    companion object {
-        @Serial
-        private const val serialVersionUID: Long = -6625420606770848114L
-
-        private val properties = arrayOf(
-            ProductOption::name,
-            ProductOption::stock
-        )
-
-        fun from(productRequest: ProductRequest, product: Product): MutableList<ProductOption>? =
-            productRequest.optionList?.map {
-                ProductOption(
-                    name = it.name!!,
-                    stock = it.stock!!,
-                    product = product
-                )
-            }?.toMutableList()
-        }
+    var product: Product? = null
 
     override fun equals(other: Any?): Boolean {
         return when {
@@ -57,5 +38,15 @@ class ProductOption(
 
     override fun hashCode(): Int = Objects.hash(id)
 
-    override fun toString(): String = Objects.toString(properties)
+    override fun toString(): String = Objects.toString(
+        arrayOf(
+            ProductOption::name,
+            ProductOption::stock
+        )
+    )
+
+    companion object {
+        @Serial
+        private const val serialVersionUID: Long = -6625420606770848114L
+    }
 }

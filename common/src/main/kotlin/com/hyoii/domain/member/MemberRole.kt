@@ -25,19 +25,6 @@ class MemberRole(
     @JoinColumn(name = "member_key", foreignKey = ForeignKey(name = "fk_member_role_1"))
     var member: Member
 ) : BaseEntity() {
-    companion object {
-        @Serial
-        private const val serialVersionUID: Long = 6850736501224894548L
-
-        private val properties = arrayOf(
-            MemberRole::role
-        )
-
-        fun fromForMember(member: Member) = MemberRole(
-            role = RoleEnums.MEMBER,
-            member = member
-        )
-    }
 
     override fun equals(other: Any?): Boolean {
         return when {
@@ -49,5 +36,14 @@ class MemberRole(
 
     override fun hashCode(): Int = Objects.hash(id)
 
-    override fun toString(): String = Objects.toString(properties)
+    override fun toString(): String = Objects.toString(
+        arrayOf(
+            MemberRole::role
+        )
+    )
+
+    companion object {
+        @Serial
+        private const val serialVersionUID: Long = 6850736501224894548L
+    }
 }

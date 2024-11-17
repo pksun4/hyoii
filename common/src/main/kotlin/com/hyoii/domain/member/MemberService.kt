@@ -4,6 +4,7 @@ import arrow.core.left
 import arrow.core.right
 import com.hyoii.domain.member.dto.SignUpRequest
 import com.hyoii.enums.MessageEnums
+import com.hyoii.enums.RoleEnums
 import com.hyoii.utils.logger
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
@@ -22,8 +23,11 @@ class MemberService(
             memberRepository.findByEmail(signUpRequest.email)?.let {
                 MemberError.MemberExist.left()
             } ?: memberRepository.save(
-                Member.from(signUpRequest).apply {
-                    this.memberRole = mutableListOf(MemberRole.fromForMember(this))
+                signUpRequest.toEntity().apply {
+                    this.memberRole = mutableListOf(MemberRole(
+                        role = RoleEnums.MEMBER,
+                        member = this
+                    ))
                 }
             ).right()
         }.getOrElse {

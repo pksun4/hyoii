@@ -38,25 +38,6 @@ class Member(
     @OneToOne(mappedBy = "member")
     var memberPoint: MemberPoint? = null
 
-    companion object {
-        @Serial
-        private const val serialVersionUID: Long = -8846109021518852076L
-
-        private val properties = arrayOf(
-            Member::email,
-            Member::password,
-            Member::name,
-            Member::gender
-        )
-
-        fun from(singUpRequest: SignUpRequest) = Member(
-            email = singUpRequest.email,
-            password = singUpRequest.password.passwordEncode(),
-            name = singUpRequest.name,
-            gender = GenderEnums.valueOf(singUpRequest.gender)
-        )
-    }
-
     override fun equals(other: Any?): Boolean {
         return when {
             this === other -> true
@@ -68,5 +49,17 @@ class Member(
     override fun hashCode(): Int = Objects.hash(id)
 
     @Override
-    override fun toString(): String = Objects.toString(properties)
+    override fun toString(): String = Objects.toString(
+        arrayOf(
+            Member::email,
+            Member::password,
+            Member::name,
+            Member::gender
+        )
+    )
+
+    companion object {
+        @Serial
+        private const val serialVersionUID: Long = -8846109021518852076L
+    }
 }

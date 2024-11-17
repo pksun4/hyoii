@@ -32,8 +32,10 @@ class ProductService(
     @Transactional
     fun saveProduct(productRequest: ProductRequest) =
         runCatching {
-            val product = Product.from(productRequest).apply {
-                this.optionList = ProductOption.from(productRequest, this)
+            val product = productRequest.toEntity().apply {
+                this.optionList = productRequest.optionList?.map {
+                    it.toEntity(this)
+                }
                 this.brand = brandRepository.findById(productRequest.brandKey!!).getOrNull()
                 this.productCategory = productCategoryRepository.findById(productRequest.categoryKey!!).getOrNull()
             }

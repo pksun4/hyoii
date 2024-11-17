@@ -19,22 +19,6 @@ class OrderOption(
     @ManyToOne
     @JoinColumn(name = "order_key", foreignKey = ForeignKey(name = "fk_order_option_1"))
     var order: Order? = null
-    companion object {
-        @Serial
-        private const val serialVersionUID: Long = -4348676094587703335L
-
-        private val properties = arrayOf(
-            OrderOption::quantity,
-            OrderOption::productOptionKey
-        )
-
-        fun from(orderRequest: OrderRequest, order: Order) = orderRequest.orderOptionList.map {
-            OrderOption(
-                quantity = it.quantity,
-                productOptionKey = it.productOptionKey
-            )
-        }.toMutableList()
-    }
 
     override fun equals(other: Any?): Boolean {
         return when {
@@ -46,5 +30,15 @@ class OrderOption(
 
     override fun hashCode(): Int = Objects.hash(id)
 
-    override fun toString(): String = Objects.toString(properties)
+    override fun toString(): String = Objects.toString(
+        arrayOf(
+            OrderOption::quantity,
+            OrderOption::productOptionKey
+        )
+    )
+
+    companion object {
+        @Serial
+        private const val serialVersionUID: Long = -4348676094587703335L
+    }
 }

@@ -1,6 +1,7 @@
 package com.hyoii.domain.member.dto
 
 import com.hyoii.annotation.ValidEnum
+import com.hyoii.common.security.SecurityUtil.passwordEncode
 import com.hyoii.domain.member.Member
 import com.hyoii.enums.GenderEnums
 import jakarta.validation.constraints.Email
@@ -24,7 +25,14 @@ class SignUpRequest(
     @field:NotBlank(message = "성별은 필수값입니다.")
     @field:ValidEnum(enumClass = GenderEnums::class, message = "M/F")
     val gender: String
-)
+) {
+    fun toEntity() = Member(
+        email = email,
+        password = password.passwordEncode(),
+        name = name,
+        gender = GenderEnums.valueOf(gender)
+    )
+}
 
 /**
  * 회원가입 응답
