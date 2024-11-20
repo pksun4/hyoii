@@ -2,6 +2,7 @@ package com.hyoii.mall.config
 
 import com.hyoii.common.security.JwtAuthenticationFilter
 import com.hyoii.common.security.JwtTokenProvider
+import com.hyoii.enums.RoleEnums
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -23,16 +24,17 @@ class SecurityConfig(
             .csrf { it.disable() }
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) } // JWT 사용위해 세션 사용하지 않음
             .authorizeHttpRequests {
-                it.requestMatchers("/",
+                it.requestMatchers(
+                    "/",
                     "/swagger-ui/**",
-                    "/v3/**").permitAll()
-                    .requestMatchers("/api/v1/auth/signup",
-                        "/api/v1/auth/login",
-                        "/api/v1/test/**",
-                        "/api/v1/brands/**"
-                    ).anonymous()
-                    .requestMatchers("/api/v1/member/**").hasRole("MEMBER")
-                    .anyRequest().authenticated()
+                    "/v3/**",
+                    "/api/v1/auth/signup",
+                    "/api/v1/auth/login"
+                ).permitAll()
+                    .requestMatchers("/api/v1/**")
+                    .hasRole(RoleEnums.MEMBER.name)
+                    .anyRequest()
+                    .authenticated()
             }
             .addFilterBefore(
                 JwtAuthenticationFilter(jwtTokenProvider),
