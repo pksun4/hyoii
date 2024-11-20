@@ -107,7 +107,8 @@ internal class ProductServiceTest {
 
     private fun createdProductOption(product: Product) = ProductOption(
         name = "BLACK M",
-        stock = 100,
-        product = product
-    )
+        stock = 100
+    ).apply {
+        this.product = product
+    }
 }

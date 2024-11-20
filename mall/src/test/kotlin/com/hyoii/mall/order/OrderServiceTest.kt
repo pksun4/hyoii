@@ -98,8 +98,7 @@ internal class OrderServiceTest {
     private fun createdProductOptionList() = mutableListOf(
         ProductOption(
             name = "FREE",
-            stock = 100,
-            product = null
+            stock = 100
         )
     )
 
