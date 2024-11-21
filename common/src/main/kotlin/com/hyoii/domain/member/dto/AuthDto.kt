@@ -3,6 +3,7 @@ package com.hyoii.domain.member.dto
 import com.hyoii.annotation.ValidEnum
 import com.hyoii.common.security.SecurityUtil.passwordEncode
 import com.hyoii.domain.member.Member
+import com.hyoii.domain.member.RefreshToken
 import com.hyoii.enums.GenderEnums
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
@@ -67,14 +68,19 @@ class LoginRequest(
 )
 
 /**
- * 토큰 요청
+ * 토큰 재발급 요청
  */
 class AuthTokenRequest(
     @field:NotBlank
     val accessToken: String,
     @field:NotBlank
     val refreshToken: String
-)
+) {
+    fun toEntity(memberKey: Long) = RefreshToken(
+        refreshToken = refreshToken,
+        memberKey = memberKey
+    )
+}
 
 /**
  * 토큰 응답
@@ -84,5 +90,4 @@ class AuthTokenResponse(
     val accessToken: String,
     val refreshToken: String
 )
-
 

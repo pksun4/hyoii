@@ -51,5 +51,7 @@ class AuthController(
         { ResponseData.success(it) }
     )
 
+    suspend fun logout() = null
+
 }
 

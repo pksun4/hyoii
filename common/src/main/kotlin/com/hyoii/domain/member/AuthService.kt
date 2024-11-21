@@ -2,8 +2,8 @@ package com.hyoii.domain.member
 
 import arrow.core.left
 import arrow.core.right
-import com.hyoii.common.security.CustomUser
 import com.hyoii.common.security.JwtTokenProvider
+import com.hyoii.common.security.SecurityUtil
 import com.hyoii.domain.member.dto.AuthTokenRequest
 import com.hyoii.domain.member.dto.AuthTokenResponse
 import com.hyoii.domain.member.dto.LoginRequest
@@ -19,9 +19,8 @@ import org.springframework.stereotype.Service
 class AuthService(
     private val authenticationManagerBuilder: AuthenticationManagerBuilder,
     private val jwtTokenProvider: JwtTokenProvider,
-    private val memberTokenRepository: MemberTokenRepository,
-    private val memberTokenRepositorySupport: MemberTokenRepositorySupport,
-    private val memberRepository: MemberRepository
+    private val memberRepository: MemberRepository,
+    private val refreshTokenRepository: RefreshTokenRepository
 ) {
     companion object {
         private const val GRANT_TYPE = "Bearer"
@@ -40,13 +39,11 @@ class AuthService(
             val authentication = authenticationManagerBuilder.`object`.authenticate(authenticationToken)
 
             memberRepository.findByEmail(loginRequest.email)?.let {
-                // 인증정보 바탕으로 토큰 생성
-                buildToken(authentication).apply {
-                    memberTokenRepository.save(
-                        MemberToken(
-                            this.accessToken,
-                            this.refreshToken,
-                            member = it
+                buildToken(authentication).also {token ->
+                    refreshTokenRepository.save(
+                        RefreshToken(
+                            refreshToken = token.refreshToken,
+                            memberKey = it.id!!
                         )
                     )
                 }.right()
@@ -63,18 +60,34 @@ class AuthService(
                 AuthError.RefreshTokenInvalid.left()
             }
             val authentication: Authentication =  jwtTokenProvider.parseToken(authTokenRequest.accessToken)
-            val memberToken = memberTokenRepositorySupport.findRecentTokenByMemberKey((authentication.principal as CustomUser).memberKey)
+            val memberToken = refreshTokenRepository.findRefreshTokenByRefreshToken(authTokenRequest.refreshToken)
             memberToken?.let {
                 if (memberToken.refreshToken != authTokenRequest.refreshToken) {
                     AuthError.RefreshTokenIssueFail.left()
                 }
-                val freshToken = buildToken(authentication)
-                memberToken.accessToken = freshToken.accessToken
-                memberToken.refreshToken = freshToken.refreshToken
-                memberTokenRepository.save(memberToken)
-
-                freshToken.right()
+                buildToken(authentication).also {
+                    refreshTokenRepository.save(
+                        RefreshToken(
+                            refreshToken = it.refreshToken,
+                            memberKey = SecurityUtil.getCurrentUser()?.memberKey!!
+                        )
+                    )
+                }.right()
             } ?: AuthError.RefreshTokenIssueFail.left()
+        }.getOrElse {
+            it.errorLogging(this.javaClass)
+            it.throwUnknownError()
+        }
+
+    @Transactional
+    suspend fun logout(tokenRequest: AuthTokenRequest) =
+        runCatching {
+            refreshTokenRepository.findRefreshTokenByRefreshToken(tokenRequest.refreshToken)?.let {
+                refreshTokenRepository.delete(
+                    tokenRequest.toEntity(SecurityUtil.getCurrentUser()?.memberKey!!)
+                )
+                Unit.right()
+            } ?: AuthError.LogoutFail.left()
         }.getOrElse {
             it.errorLogging(this.javaClass)
             it.throwUnknownError()
@@ -94,10 +107,11 @@ class AuthService(
 sealed class AuthError(
     val messageEnums: MessageEnums
 ) {
-    data object AuthenticationFail: AuthError(MessageEnums.AUTHENTICATION_FAIL)
-    data object LoginFail: AuthError(MessageEnums.LOGIN_FAIL)
-    data object RefreshTokenIssueFail: AuthError(MessageEnums.REFRESH_TOKEN_ISSUE_FAIL)
-    data object RefreshTokenInvalid: AuthError(MessageEnums.REFRESH_TOKEN_INVALID)
+    data object AuthenticationFail : AuthError(MessageEnums.AUTHENTICATION_FAIL)
+    data object LoginFail : AuthError(MessageEnums.LOGIN_FAIL)
+    data object RefreshTokenIssueFail : AuthError(MessageEnums.REFRESH_TOKEN_ISSUE_FAIL)
+    data object RefreshTokenInvalid : AuthError(MessageEnums.REFRESH_TOKEN_INVALID)
+    data object LogoutFail : AuthError(MessageEnums.LOGOUT_FAIL)
 
-    data class Unknown(val className: String): AuthError(MessageEnums.ERROR)
+    data class Unknown(val className: String) : AuthError(MessageEnums.ERROR)
 }
